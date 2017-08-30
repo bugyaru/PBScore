@@ -94,9 +94,13 @@ public class PBScore extends javax.swing.JFrame {
         jTextField6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField6.setText("Команда1");
 
-        jButton1.setText("Таймаут");
+        jButton1.setBackground(new java.awt.Color(255, 255, 102));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ico_alpha_TaskScheduling_32x32.png"))); // NOI18N
+        jButton1.setToolTipText("Таймаут");
 
-        jButton2.setText("Старт");
+        jButton2.setBackground(new java.awt.Color(153, 255, 102));
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/start.png"))); // NOI18N
+        jButton2.setToolTipText("Старт");
 
         jTextField7.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
         jTextField7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -143,9 +147,13 @@ public class PBScore extends javax.swing.JFrame {
         jTextField8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField8.setText("Команда2");
 
-        jButton5.setText("Стоп");
+        jButton5.setBackground(new java.awt.Color(255, 51, 51));
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/stop.png"))); // NOI18N
+        jButton5.setToolTipText("Стоп");
 
-        jButton6.setText("Таймаут");
+        jButton6.setBackground(new java.awt.Color(255, 255, 102));
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ico_alpha_TaskScheduling_32x32.png"))); // NOI18N
+        jButton6.setToolTipText("Таймаут");
 
         jTextField9.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
         jTextField9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -188,22 +196,30 @@ public class PBScore extends javax.swing.JFrame {
                             .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
 
+        jTextField10.setBackground(new java.awt.Color(204, 255, 255));
         jTextField10.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         jTextField10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField10.setText("00:00:00.00");
 
+        jTextField11.setBackground(new java.awt.Color(204, 255, 204));
         jTextField11.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         jTextField11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField11.setText("00:00:00.00");
 
+        jButton9.setBackground(new java.awt.Color(204, 255, 255));
         jButton9.setText("Редактировать");
 
+        jLabel1.setBackground(new java.awt.Color(204, 255, 255));
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("ВРЕМЯ ИГРЫ");
 
+        jLabel2.setBackground(new java.awt.Color(204, 255, 204));
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("ТАЙМАУТ");
 
+        jButton10.setBackground(new java.awt.Color(204, 255, 204));
         jButton10.setText("Редактировать");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -270,11 +286,11 @@ public class PBScore extends javax.swing.JFrame {
         jTable1.setEditingRow(1);
         jScrollPane1.setViewportView(jTable1);
 
-        jButton11.setText("UP");
+        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/upbutton.png"))); // NOI18N
 
-        jButton12.setText("SET");
+        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ok32.png"))); // NOI18N
 
-        jButton13.setText("DOWN");
+        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/downbutton.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -300,7 +316,7 @@ public class PBScore extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -318,7 +334,7 @@ public class PBScore extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGap(0, 507, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Page 2", jPanel2);
@@ -333,7 +349,7 @@ public class PBScore extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGap(0, 507, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Page 3", jPanel3);
@@ -348,7 +364,7 @@ public class PBScore extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGap(0, 507, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Page 4", jPanel5);
@@ -374,14 +390,17 @@ public class PBScore extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/web32.png"))); // NOI18N
         jMenuItem2.setText("Load Schedule");
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/file32.png"))); // NOI18N
         jMenuItem3.setText("Save Schedule");
         jMenu1.add(jMenuItem3);
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/file32.png"))); // NOI18N
         jMenuItem4.setText("Save Schedule As...");
         jMenu1.add(jMenuItem4);
         jMenu1.add(jSeparator2);
@@ -401,6 +420,7 @@ public class PBScore extends javax.swing.JFrame {
         jMenu2.setText("Edit");
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/pdm32.png"))); // NOI18N
         jMenuItem5.setText("Configure");
         jMenu2.add(jMenuItem5);
 
