@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
@@ -49,6 +49,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+Q"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/bug/resourse/exit.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Exit"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
@@ -87,6 +90,9 @@
                   <KeyStroke key="Ctrl+1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="ViewBOX"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/bug/resourse/viewbox.png"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckViewBoxActionPerformed"/>
@@ -99,6 +105,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="ELTABLO"/>
                 <Property name="enabled" type="boolean" value="false"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/bug/resourse/eltablo.png"/>
+                </Property>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckBoxMenuItem3">
@@ -107,6 +116,9 @@
                   <KeyStroke key="Ctrl+3"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Sound"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/bug/resourse/PBLeftImage32.png"/>
+                </Property>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckBoxMenuItem4">
@@ -115,6 +127,9 @@
                   <KeyStroke key="Ctrl+3"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="AI ;)"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/bug/resourse/ai.png"/>
+                </Property>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckBoxMenuItem1">
@@ -123,6 +138,9 @@
                   <KeyStroke key="Ctrl+4"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="VidBlaster"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/bug/resourse/VIDBLAST.png"/>
+                </Property>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -155,10 +173,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="jPanel4" max="32767" attributes="0"/>
-          </Group>
+          <Component id="jPanel4" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -350,13 +365,22 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton3">
                       <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Courier New" size="24" style="1"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="-1"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton4">
                       <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Courier New" size="24" style="1"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="+1"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -446,11 +470,17 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton7">
                       <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Courier New" size="24" style="1"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="-1"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton8">
                       <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Courier New" size="24" style="1"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="+1"/>
                       </Properties>
                     </Component>
@@ -462,7 +492,7 @@
                       <Color blue="ff" green="ff" red="cc" type="rgb"/>
                     </Property>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Courier New" size="24" style="1"/>
+                      <Font name="Courier New" size="36" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="00:00:00.00"/>
@@ -474,7 +504,7 @@
                       <Color blue="cc" green="ff" red="cc" type="rgb"/>
                     </Property>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Courier New" size="24" style="1"/>
+                      <Font name="Courier New" size="36" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="00:00:00.00"/>
@@ -532,24 +562,74 @@
                 <Component class="javax.swing.JTable" name="jTable1">
                   <Properties>
                     <Property name="autoCreateRowSorter" type="boolean" value="true"/>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="10" rowCount="1">
-                        <Column editable="false" title="#" type="java.lang.Integer"/>
-                        <Column editable="false" title="&#x412;&#x440;&#x435;&#x43c;&#x44f;" type="java.lang.String"/>
-                        <Column editable="true" title="&#x414;&#x43b;&#x438;&#x442;-&#x442;&#x44c;" type="java.lang.String"/>
-                        <Column editable="true" title="&#x422;&#x430;&#x439;&#x43c;&#x430;&#x443;&#x442;" type="java.lang.Boolean"/>
-                        <Column editable="true" title="&#x41a;&#x43e;&#x43c;&#x430;&#x43d;&#x434;&#x430;" type="java.lang.String"/>
-                        <Column editable="true" title="&#x421;&#x447;&#x435;&#x442;" type="java.lang.Integer"/>
-                        <Column editable="true" title="&#x421;&#x447;&#x435;&#x442;" type="java.lang.Integer"/>
-                        <Column editable="true" title="&#x41a;&#x43e;&#x43c;&#x430;&#x43d;&#x434;&#x430;" type="java.lang.String"/>
-                        <Column editable="true" title="&#x422;&#x430;&#x439;&#x43c;&#x430;&#x443;&#x442;" type="java.lang.Boolean"/>
-                        <Column editable="true" title="&#x420;&#x435;&#x437;&#x443;&#x43b;&#x44c;&#x442;&#x430;&#x442;" type="java.lang.String"/>
-                      </Table>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new Object [][] {&#xa;        {index, null, null, null, null, null, null, null, null, null}&#xa;    },&#xa;    new String [] {&#xa;        &quot;#&quot;, &quot;&#x412;&#x440;&#x435;&#x43c;&#x44f;&quot;, &quot;&#x414;&#x43b;&#x438;&#x442;-&#x442;&#x44c;&quot;, &quot;&#x422;&#x430;&#x439;&#x43c;&#x430;&#x443;&#x442;&quot;, &quot;&#x41a;&#x43e;&#x43c;&#x430;&#x43d;&#x434;&#x430;&quot;, &quot;&#x421;&#x447;&#x435;&#x442;&quot;, &quot;&#x421;&#x447;&#x435;&#x442;&quot;, &quot;&#x41a;&#x43e;&#x43c;&#x430;&#x43d;&#x434;&#x430;&quot;, &quot;&#x422;&#x430;&#x439;&#x43c;&#x430;&#x443;&#x442;&quot;, &quot;&#x420;&#x435;&#x437;&#x443;&#x43b;&#x44c;&#x442;&#x430;&#x442;&quot;&#xa;    }&#xa;) {&#xa;    Class[] types = new Class [] {&#xa;        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class&#xa;    };&#xa;    boolean[] canEdit = new boolean [] {&#xa;        false, false, true, true, true, true, true, true, true, true&#xa;    };&#xa;&#xa;    public Class getColumnClass(int columnIndex) {&#xa;        return types [columnIndex];&#xa;    }&#xa;&#xa;    public boolean isCellEditable(int rowIndex, int columnIndex) {&#xa;        return canEdit [columnIndex];&#xa;    }&#xa;}" type="code"/>
                     </Property>
                     <Property name="cellSelectionEnabled" type="boolean" value="true"/>
+                    <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                      <TableColumnModel selectionModel="1">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="20" resizable="false">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                      </TableColumnModel>
+                    </Property>
                     <Property name="editingColumn" type="int" value="1"/>
                     <Property name="editingRow" type="int" value="1"/>
+                    <Property name="showGrid" type="boolean" value="true"/>
+                    <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                      <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
+                    </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="inputMethodTextChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="jTable1InputMethodTextChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -559,6 +639,9 @@
                   <Image iconType="3" name="/com/bug/resourse/upbutton.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton11ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton12">
               <Properties>
@@ -566,6 +649,9 @@
                   <Image iconType="3" name="/com/bug/resourse/ok32.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton12ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton13">
               <Properties>
@@ -573,6 +659,9 @@
                   <Image iconType="3" name="/com/bug/resourse/downbutton.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton13ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

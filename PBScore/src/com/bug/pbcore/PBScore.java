@@ -9,6 +9,10 @@ import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,10 +23,36 @@ public class PBScore extends javax.swing.JFrame {
     /**
      * Creates new form PBScore
      */
+    int index=0;
+    int currentSelectionRow;
+    int prevSelectionRow;
+    
     viewBox frame = new viewBox();
 
     public PBScore() {
         initComponents();
+        jTable1.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent evt) {
+                if(evt.getType()==TableModelEvent.UPDATE){
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    Boolean flAdd=true;
+                    int c=model.getRowCount();
+                    c--;
+                    for(int i=0; i<model.getColumnCount();i++){
+                        if(evt.getLastRow()!=c){
+                            flAdd=false;
+                        }
+                    }
+                    if(flAdd){
+                        index++;
+                        model.insertRow(model.getRowCount(), new Object [] {index, null, null, null, null, null, null, null, null, null});
+                    }
+                }
+                
+
+            }
+        });
     }
 
     /**
@@ -106,9 +136,16 @@ public class PBScore extends javax.swing.JFrame {
         jTextField7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField7.setText("00");
 
+        jButton3.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         jButton3.setText("-1");
 
+        jButton4.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         jButton4.setText("+1");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -159,8 +196,10 @@ public class PBScore extends javax.swing.JFrame {
         jTextField9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField9.setText("00");
 
+        jButton7.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         jButton7.setText("-1");
 
+        jButton8.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         jButton8.setText("+1");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -197,12 +236,12 @@ public class PBScore extends javax.swing.JFrame {
         );
 
         jTextField10.setBackground(new java.awt.Color(204, 255, 255));
-        jTextField10.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
+        jTextField10.setFont(new java.awt.Font("Courier New", 1, 36)); // NOI18N
         jTextField10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField10.setText("00:00:00.00");
 
         jTextField11.setBackground(new java.awt.Color(204, 255, 204));
-        jTextField11.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
+        jTextField11.setFont(new java.awt.Font("Courier New", 1, 36)); // NOI18N
         jTextField11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField11.setText("00:00:00.00");
 
@@ -260,7 +299,7 @@ public class PBScore extends javax.swing.JFrame {
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null}
+                {index, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
                 "#", "Время", "Длит-ть", "Таймаут", "Команда", "Счет", "Счет", "Команда", "Таймаут", "Результат"
@@ -284,13 +323,42 @@ public class PBScore extends javax.swing.JFrame {
         jTable1.setCellSelectionEnabled(true);
         jTable1.setEditingColumn(1);
         jTable1.setEditingRow(1);
+        jTable1.setShowGrid(true);
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jTable1InputMethodTextChanged(evt);
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
+        }
 
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/upbutton.png"))); // NOI18N
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ok32.png"))); // NOI18N
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
         jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/downbutton.png"))); // NOI18N
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -406,6 +474,7 @@ public class PBScore extends javax.swing.JFrame {
         jMenu1.add(jSeparator2);
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/exit.png"))); // NOI18N
         jMenuItem6.setText("Exit");
         jMenuItem6.setToolTipText("");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -430,6 +499,7 @@ public class PBScore extends javax.swing.JFrame {
 
         jCheckViewBox.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
         jCheckViewBox.setText("ViewBOX");
+        jCheckViewBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/viewbox.png"))); // NOI18N
         jCheckViewBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckViewBoxActionPerformed(evt);
@@ -440,18 +510,22 @@ public class PBScore extends javax.swing.JFrame {
         jCheckBoxMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
         jCheckBoxMenuItem2.setText("ELTABLO");
         jCheckBoxMenuItem2.setEnabled(false);
+        jCheckBoxMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/eltablo.png"))); // NOI18N
         jMenu4.add(jCheckBoxMenuItem2);
 
         jCheckBoxMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
         jCheckBoxMenuItem3.setText("Sound");
+        jCheckBoxMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/PBLeftImage32.png"))); // NOI18N
         jMenu4.add(jCheckBoxMenuItem3);
 
         jCheckBoxMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
         jCheckBoxMenuItem4.setText("AI ;)");
+        jCheckBoxMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"))); // NOI18N
         jMenu4.add(jCheckBoxMenuItem4);
 
         jCheckBoxMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.CTRL_MASK));
         jCheckBoxMenuItem1.setText("VidBlaster");
+        jCheckBoxMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/VIDBLAST.png"))); // NOI18N
         jMenu4.add(jCheckBoxMenuItem1);
 
         jMenuBar1.add(jMenu4);
@@ -463,9 +537,7 @@ public class PBScore extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -492,6 +564,33 @@ public class PBScore extends javax.swing.JFrame {
         this.dispose();
         System.exit(0);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTable1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTable1InputMethodTextChanged
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.addRow(new Object [] {null, null, null, null, null, null, null, null, null, null});
+    }//GEN-LAST:event_jTable1InputMethodTextChanged
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        if(jTable1.getSelectedRow()>0){
+            prevSelectionRow=jTable1.getSelectedRow();
+            jTable1.setRowSelectionInterval(jTable1.getSelectedRow()-1, jTable1.getSelectedRow()-1);        
+        }
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        if(jTable1.getSelectedRow()!=-1 && jTable1.getSelectedRow()+1<jTable1.getRowCount()){
+            prevSelectionRow=jTable1.getSelectedRow();
+            jTable1.setRowSelectionInterval(jTable1.getSelectedRow()+1, jTable1.getSelectedRow()+1);        
+        }
+    }//GEN-LAST:event_jButton13ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -526,6 +625,7 @@ public class PBScore extends javax.swing.JFrame {
                 new PBScore().setVisible(true);
             }
         });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
