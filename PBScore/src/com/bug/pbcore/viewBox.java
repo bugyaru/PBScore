@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -337,6 +338,8 @@ public class viewBox extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     private void customize()  {
+        ImageIcon imgicon = new ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"));
+        setIconImage(imgicon.getImage());
         try {
             /* Set the Nimbus look and feel */
             Container c = getContentPane();

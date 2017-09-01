@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
@@ -32,6 +33,8 @@ public class PBScore extends javax.swing.JFrame {
 
     public PBScore() {
         initComponents();
+        ImageIcon imgicon = new ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"));
+        setIconImage(imgicon.getImage());
         jTable1.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent evt) {
@@ -65,6 +68,9 @@ public class PBScore extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jCheckBoxMenuItem5 = new javax.swing.JCheckBoxMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -118,6 +124,13 @@ public class PBScore extends javax.swing.JFrame {
         jCheckBoxMenuItem4 = new javax.swing.JCheckBoxMenuItem();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
 
+        jCheckBoxMenuItem5.setSelected(true);
+        jCheckBoxMenuItem5.setText("jCheckBoxMenuItem5");
+        jPopupMenu1.add(jCheckBoxMenuItem5);
+
+        jMenuItem1.setText("jMenuItem1");
+        jPopupMenu1.add(jMenuItem1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PBScore");
 
@@ -128,6 +141,11 @@ public class PBScore extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(255, 255, 102));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ico_alpha_TaskScheduling_32x32.png"))); // NOI18N
         jButton1.setToolTipText("Таймаут");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(153, 255, 102));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/start.png"))); // NOI18N
@@ -197,6 +215,11 @@ public class PBScore extends javax.swing.JFrame {
         jButton6.setBackground(new java.awt.Color(255, 255, 102));
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ico_alpha_TaskScheduling_32x32.png"))); // NOI18N
         jButton6.setToolTipText("Таймаут");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jTextField9.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
         jTextField9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -339,13 +362,12 @@ public class PBScore extends javax.swing.JFrame {
         jTable1.setCellSelectionEnabled(true);
         jTable1.setEditingColumn(1);
         jTable1.setEditingRow(1);
-        jTable1.setShowGrid(true);
         jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 jTable1InputMethodTextChanged(evt);
-            }
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -582,7 +604,10 @@ public class PBScore extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+            saveScoreRow(currentSelectionRow);
+            prevSelectionRow=currentSelectionRow;
+            currentSelectionRow=jTable1.getSelectedRow();
+            loadScoreRow(currentSelectionRow);
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -629,6 +654,20 @@ public class PBScore extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         jTextField9.setText(String.format("%02d", Integer.parseInt(jTextField9.getText())+1));
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jButton1.setEnabled(false);
+        jTable1.setValueAt(true, currentSelectionRow, 3);
+        //generate event update
+        //add 1 minut
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        jButton6.setEnabled(false);
+        jTable1.setValueAt(true, currentSelectionRow, 8);
+        //generate event update
+        //add 1 minut
+    }//GEN-LAST:event_jButton6ActionPerformed
     
     private void loadScoreRow(Integer rowIndex){
         
@@ -712,6 +751,7 @@ public class PBScore extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem3;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem4;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem5;
     private javax.swing.JCheckBoxMenuItem jCheckViewBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -719,6 +759,7 @@ public class PBScore extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -732,6 +773,7 @@ public class PBScore extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
