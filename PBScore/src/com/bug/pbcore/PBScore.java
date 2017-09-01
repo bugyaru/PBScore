@@ -6,6 +6,7 @@
 package com.bug.pbcore;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -19,14 +20,14 @@ import javax.swing.table.DefaultTableModel;
  * @author bkantor
  */
 public class PBScore extends javax.swing.JFrame {
-
+    private ArrayList<vBoxEventsListener> listeners = new ArrayList<vBoxEventsListener>();
     /**
      * Creates new form PBScore
      */
     int index=0;
-    int currentSelectionRow;
-    int prevSelectionRow;
-    
+    int currentSelectionRow=0;
+    int prevSelectionRow=0;
+    vBoxStructure vBoxData;
     viewBox frame = new viewBox();
 
     public PBScore() {
@@ -138,6 +139,11 @@ public class PBScore extends javax.swing.JFrame {
 
         jButton3.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         jButton3.setText("-1");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         jButton4.setText("+1");
@@ -198,9 +204,19 @@ public class PBScore extends javax.swing.JFrame {
 
         jButton7.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         jButton7.setText("-1");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         jButton8.setText("+1");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -299,17 +315,17 @@ public class PBScore extends javax.swing.JFrame {
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {index, null, null, null, null, null, null, null, null, null}
+                {index, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "#", "Время", "Длит-ть", "Таймаут", "Команда", "Счет", "Счет", "Команда", "Таймаут", "Результат"
+                "#", "Время", "Длит-ть", "Таймаут", "Команда", "Счет", "Счет", "Команда", "Таймаут", "Результат", "Результат"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, true, true, true, true, true, true, true
+                false, false, true, true, true, true, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -518,12 +534,12 @@ public class PBScore extends javax.swing.JFrame {
         jCheckBoxMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/PBLeftImage32.png"))); // NOI18N
         jMenu4.add(jCheckBoxMenuItem3);
 
-        jCheckBoxMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
+        jCheckBoxMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.CTRL_MASK));
         jCheckBoxMenuItem4.setText("AI ;)");
         jCheckBoxMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"))); // NOI18N
         jMenu4.add(jCheckBoxMenuItem4);
 
-        jCheckBoxMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.CTRL_MASK));
+        jCheckBoxMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_5, java.awt.event.InputEvent.CTRL_MASK));
         jCheckBoxMenuItem1.setText("VidBlaster");
         jCheckBoxMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/VIDBLAST.png"))); // NOI18N
         jMenu4.add(jCheckBoxMenuItem1);
@@ -570,7 +586,7 @@ public class PBScore extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
+        jTextField7.setText(String.format("%02d", Integer.parseInt(jTextField7.getText())+1));
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTable1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTable1InputMethodTextChanged
@@ -580,18 +596,68 @@ public class PBScore extends javax.swing.JFrame {
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         if(jTable1.getSelectedRow()>0){
-            prevSelectionRow=jTable1.getSelectedRow();
-            jTable1.setRowSelectionInterval(jTable1.getSelectedRow()-1, jTable1.getSelectedRow()-1);        
+            saveScoreRow(currentSelectionRow);
+            prevSelectionRow=currentSelectionRow;
+            currentSelectionRow--;
+            loadScoreRow(currentSelectionRow);
+            jTable1.setRowSelectionInterval(currentSelectionRow, currentSelectionRow);
         }
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         if(jTable1.getSelectedRow()!=-1 && jTable1.getSelectedRow()+1<jTable1.getRowCount()){
-            prevSelectionRow=jTable1.getSelectedRow();
-            jTable1.setRowSelectionInterval(jTable1.getSelectedRow()+1, jTable1.getSelectedRow()+1);        
+            saveScoreRow(currentSelectionRow);
+            prevSelectionRow=currentSelectionRow;
+            currentSelectionRow++;
+            loadScoreRow(currentSelectionRow);
+            jTable1.setRowSelectionInterval(currentSelectionRow, currentSelectionRow);
         }
     }//GEN-LAST:event_jButton13ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(Integer.parseInt(jTextField7.getText())>0){
+            jTextField7.setText(String.format("%02d", Integer.parseInt(jTextField7.getText())-1));
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        if(Integer.parseInt(jTextField9.getText())>0){
+            jTextField9.setText(String.format("%02d", Integer.parseInt(jTextField9.getText())-1));
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        jTextField9.setText(String.format("%02d", Integer.parseInt(jTextField9.getText())+1));
+    }//GEN-LAST:event_jButton8ActionPerformed
+    
+    private void loadScoreRow(Integer rowIndex){
+        
+    }
+    private void saveScoreRow(Integer rowIndex){
+        //column 4 5 6 7 9 10
+        jTable1.setValueAt(jTextField6.getText(), currentSelectionRow, 4);
+        jTable1.setValueAt(jTextField7.getText(), currentSelectionRow, 5);
+        jTable1.setValueAt(jTextField8.getText(), currentSelectionRow, 7);
+        jTable1.setValueAt(jTextField9.getText(), currentSelectionRow, 6);
+        jTable1.setValueAt(jTextField10.getText(), currentSelectionRow, 2);
+        if(jCheckBoxMenuItem4.isSelected()){
+            //System.out.println(Integer.parseInt(jTextField7.getText()));
+            if(Integer.parseInt(jTextField7.getText())>Integer.parseInt(jTextField9.getText())){
+                Integer res=Integer.parseInt(jTextField7.getText())-Integer.parseInt(jTextField9.getText());
+                jTable1.setValueAt("1/"+res, currentSelectionRow, 9);
+                jTable1.setValueAt("0/"+(-res), currentSelectionRow, 10);
+            }else if(Integer.parseInt(jTextField7.getText())<Integer.parseInt(jTextField9.getText())){
+                Integer res=Integer.parseInt(jTextField7.getText())-Integer.parseInt(jTextField9.getText());
+                jTable1.setValueAt("0/"+res, currentSelectionRow, 9);
+                jTable1.setValueAt("1/"+(-res), currentSelectionRow, 10);            
+            }else{
+                jTable1.setValueAt("1/0", currentSelectionRow, 9);
+                jTable1.setValueAt("1/0", currentSelectionRow, 10);            
+                
+            }
+        }
+
+    }
     /**
      * @param args the command line arguments
      */
@@ -682,4 +748,23 @@ public class PBScore extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
+    public void addVBoxEventsListener(vBoxEventsListener listener) {
+        listeners.add(listener);
+    }
+
+    public vBoxEventsListener[] getVBoxEventsListeners() {
+        return listeners.toArray(new vBoxEventsListener[listeners.size()]);
+    }
+
+    public void removeVBoxEventsListener(vBoxEventsListener listener) {
+        listeners.remove(listener);
+    }
+
+    protected void fireVBoxEvents(vBoxStructure data) {
+        viewBoxEvents ev = new viewBoxEvents(this, data);
+        for(vBoxEventsListener listener:listeners) {
+            listener.viewBoxEvent(ev);
+        }
+    }
+
 }

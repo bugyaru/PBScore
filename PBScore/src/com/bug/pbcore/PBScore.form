@@ -124,7 +124,7 @@
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckBoxMenuItem4">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+3"/>
+                  <KeyStroke key="Ctrl+4"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="AI ;)"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -135,7 +135,7 @@
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckBoxMenuItem1">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+4"/>
+                  <KeyStroke key="Ctrl+5"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="VidBlaster"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -370,6 +370,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="-1"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton4">
                       <Properties>
@@ -475,6 +478,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="-1"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton8">
                       <Properties>
@@ -483,6 +489,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="+1"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton8ActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -563,7 +572,7 @@
                   <Properties>
                     <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new Object [][] {&#xa;        {index, null, null, null, null, null, null, null, null, null}&#xa;    },&#xa;    new String [] {&#xa;        &quot;#&quot;, &quot;&#x412;&#x440;&#x435;&#x43c;&#x44f;&quot;, &quot;&#x414;&#x43b;&#x438;&#x442;-&#x442;&#x44c;&quot;, &quot;&#x422;&#x430;&#x439;&#x43c;&#x430;&#x443;&#x442;&quot;, &quot;&#x41a;&#x43e;&#x43c;&#x430;&#x43d;&#x434;&#x430;&quot;, &quot;&#x421;&#x447;&#x435;&#x442;&quot;, &quot;&#x421;&#x447;&#x435;&#x442;&quot;, &quot;&#x41a;&#x43e;&#x43c;&#x430;&#x43d;&#x434;&#x430;&quot;, &quot;&#x422;&#x430;&#x439;&#x43c;&#x430;&#x443;&#x442;&quot;, &quot;&#x420;&#x435;&#x437;&#x443;&#x43b;&#x44c;&#x442;&#x430;&#x442;&quot;&#xa;    }&#xa;) {&#xa;    Class[] types = new Class [] {&#xa;        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class&#xa;    };&#xa;    boolean[] canEdit = new boolean [] {&#xa;        false, false, true, true, true, true, true, true, true, true&#xa;    };&#xa;&#xa;    public Class getColumnClass(int columnIndex) {&#xa;        return types [columnIndex];&#xa;    }&#xa;&#xa;    public boolean isCellEditable(int rowIndex, int columnIndex) {&#xa;        return canEdit [columnIndex];&#xa;    }&#xa;}" type="code"/>
+                      <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new Object [][] {&#xa;        {index, null, null, null, null, null, null, null, null, null, null}&#xa;    },&#xa;    new String [] {&#xa;        &quot;#&quot;, &quot;&#x412;&#x440;&#x435;&#x43c;&#x44f;&quot;, &quot;&#x414;&#x43b;&#x438;&#x442;-&#x442;&#x44c;&quot;, &quot;&#x422;&#x430;&#x439;&#x43c;&#x430;&#x443;&#x442;&quot;, &quot;&#x41a;&#x43e;&#x43c;&#x430;&#x43d;&#x434;&#x430;&quot;, &quot;&#x421;&#x447;&#x435;&#x442;&quot;, &quot;&#x421;&#x447;&#x435;&#x442;&quot;, &quot;&#x41a;&#x43e;&#x43c;&#x430;&#x43d;&#x434;&#x430;&quot;, &quot;&#x422;&#x430;&#x439;&#x43c;&#x430;&#x443;&#x442;&quot;, &quot;&#x420;&#x435;&#x437;&#x443;&#x43b;&#x44c;&#x442;&#x430;&#x442;&quot;, &quot;&#x420;&#x435;&#x437;&#x443;&#x43b;&#x44c;&#x442;&#x430;&#x442;&quot;&#xa;    }&#xa;) {&#xa;    Class[] types = new Class [] {&#xa;        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class&#xa;    };&#xa;    boolean[] canEdit = new boolean [] {&#xa;        false, false, true, true, true, true, true, true, true, true, true&#xa;    };&#xa;&#xa;    public Class getColumnClass(int columnIndex) {&#xa;        return types [columnIndex];&#xa;    }&#xa;&#xa;    public boolean isCellEditable(int rowIndex, int columnIndex) {&#xa;        return canEdit [columnIndex];&#xa;    }&#xa;}" type="code"/>
                     </Property>
                     <Property name="cellSelectionEnabled" type="boolean" value="true"/>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
