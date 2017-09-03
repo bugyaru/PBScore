@@ -5,9 +5,18 @@
  */
 package com.bug.pbcore;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -26,11 +35,17 @@ public class PBScore extends javax.swing.JFrame {
     int prevSelectionRow = 0;
     public Map<String, Object> data = new HashMap<String, Object>();
     viewBox frame = new viewBox();
+    Timer gameTimer, timeTimer;
+    String gameTime = "10:00";
+    String timerTime = "00:00";
+    String format = "HH:mm:ss.SSS";
+    SimpleDateFormat ftg = new SimpleDateFormat(format);
     
-    viewBoxEvents viEvents = new viewBoxEvents(this);
-    
+    long gameTimeC,timerTimeC;
+
     public PBScore() {
         initComponents();
+        ftg.setTimeZone(TimeZone.getTimeZone("UTC"));
         ImageIcon imgicon = new ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"));
         setIconImage(imgicon.getImage());
         jTable1.getModel().addTableModelListener(new TableModelListener() {
@@ -54,6 +69,57 @@ public class PBScore extends javax.swing.JFrame {
 
             }
         });
+        gameTimer = new Timer(100, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+                formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+                long time=timer2long(gameTime)-(System.currentTimeMillis() - gameTimeC);
+                if(time>=0){
+                    jTextField10.setText(formatForDateNow.format(new Date(time)));
+                }else{
+                    jTextField10.setText(formatForDateNow.format(new Date(0)));
+                    gameTimer.stop();
+                }
+                //System.out.println("====="+(new Date(time).toString())+"-----"+time+"   "+(new Date(0).toString()));
+            }
+        });
+        timeTimer = new Timer(100, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+                formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+                long time=timer2long(timerTime)-(System.currentTimeMillis() - timerTimeC);
+                if(time>=0){
+                    jTextField11.setText(formatForDateNow.format(new Date(time)));
+                }else{
+                    jTextField11.setText(formatForDateNow.format(new Date(0)));
+                    timeTimer.stop();
+                    gameTimeC = System.currentTimeMillis(); 
+                    gameTimer.start();
+                }
+            }
+        });
+        jPanel6.setComponentPopupMenu(jPopupMenu1);
+        
+        jTextField10.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+            }
+            public void removeUpdate(DocumentEvent e) {
+            }
+            public void insertUpdate(DocumentEvent e) {
+                data.put("GameTime", jTextField10.getText());
+                frame.viEvents.fireVBoxEventField("GameTime", data);
+            }
+        });
+        jTextField11.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+            }
+            public void removeUpdate(DocumentEvent e) {
+            }
+            public void insertUpdate(DocumentEvent e) {
+                data.put("TimerTime", jTextField11.getText());
+                frame.viEvents.fireVBoxEventField("TimerTime", data);
+            }
+        });
     }
 
     /**
@@ -66,15 +132,34 @@ public class PBScore extends javax.swing.JFrame {
     private void initComponents() {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
-        jCheckBoxMenuItem5 = new javax.swing.JCheckBoxMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem3 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem4 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem5 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem6 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem7 = new javax.swing.JRadioButtonMenuItem();
+        jMenu5 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        jRadioButtonMenuItem8 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem9 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem10 = new javax.swing.JRadioButtonMenuItem();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
         jTextField6 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jTextField7 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -96,9 +181,6 @@ public class PBScore extends javax.swing.JFrame {
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
@@ -121,15 +203,170 @@ public class PBScore extends javax.swing.JFrame {
         jCheckBoxMenuItem4 = new javax.swing.JCheckBoxMenuItem();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
 
-        jCheckBoxMenuItem5.setSelected(true);
-        jCheckBoxMenuItem5.setText("jCheckBoxMenuItem5");
-        jPopupMenu1.add(jCheckBoxMenuItem5);
+        jMenu3.setText("Период");
 
-        jMenuItem1.setText("jMenuItem1");
-        jPopupMenu1.add(jMenuItem1);
+        buttonGroup1.add(jRadioButtonMenuItem1);
+        jRadioButtonMenuItem1.setText("20 минут");
+        jRadioButtonMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jRadioButtonMenuItem1);
+
+        buttonGroup1.add(jRadioButtonMenuItem2);
+        jRadioButtonMenuItem2.setText("15 минут");
+        jRadioButtonMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jRadioButtonMenuItem2);
+
+        buttonGroup1.add(jRadioButtonMenuItem3);
+        jRadioButtonMenuItem3.setSelected(true);
+        jRadioButtonMenuItem3.setText("10 минут");
+        jRadioButtonMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jRadioButtonMenuItem3);
+
+        buttonGroup1.add(jRadioButtonMenuItem4);
+        jRadioButtonMenuItem4.setText("8 минут");
+        jRadioButtonMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jRadioButtonMenuItem4);
+
+        buttonGroup1.add(jRadioButtonMenuItem5);
+        jRadioButtonMenuItem5.setText("6 минут");
+        jRadioButtonMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jRadioButtonMenuItem5);
+
+        buttonGroup1.add(jRadioButtonMenuItem6);
+        jRadioButtonMenuItem6.setText("5 минут");
+        jRadioButtonMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jRadioButtonMenuItem6);
+
+        buttonGroup1.add(jRadioButtonMenuItem7);
+        jRadioButtonMenuItem7.setText("Вручную");
+        jRadioButtonMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jRadioButtonMenuItem7);
+
+        jPopupMenu1.add(jMenu3);
+
+        jMenu5.setText("Таймаут");
+
+        jMenuItem1.setText("10 секунд");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem1);
+
+        jMenuItem7.setText("30 секунд");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem7);
+
+        jMenuItem8.setText("1 минута");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem8);
+
+        jMenuItem9.setText("2 минуты");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem9);
+
+        jMenuItem10.setText("5 минут");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem10);
+
+        jMenuItem11.setText("10 минут");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem11);
+
+        jPopupMenu1.add(jMenu5);
+
+        jMenu6.setText("Формат");
+
+        buttonGroup2.add(jRadioButtonMenuItem8);
+        jRadioButtonMenuItem8.setText("mm:ss");
+        jRadioButtonMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jRadioButtonMenuItem8);
+
+        buttonGroup2.add(jRadioButtonMenuItem9);
+        jRadioButtonMenuItem9.setText("hh:mm:ss");
+        jRadioButtonMenuItem9.setToolTipText("");
+        jRadioButtonMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jRadioButtonMenuItem9);
+
+        buttonGroup2.add(jRadioButtonMenuItem10);
+        jRadioButtonMenuItem10.setSelected(true);
+        jRadioButtonMenuItem10.setText("hh:mm:ss.ms");
+        jRadioButtonMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jRadioButtonMenuItem10);
+
+        jPopupMenu1.add(jMenu6);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PBScore");
+
+        jButton2.setBackground(new java.awt.Color(153, 255, 102));
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/start.png"))); // NOI18N
+        jButton2.setToolTipText("Старт");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTextField6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jTextField6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -143,10 +380,6 @@ public class PBScore extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-
-        jButton2.setBackground(new java.awt.Color(153, 255, 102));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/start.png"))); // NOI18N
-        jButton2.setToolTipText("Старт");
 
         jTextField7.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
         jTextField7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -208,6 +441,11 @@ public class PBScore extends javax.swing.JFrame {
         jButton5.setBackground(new java.awt.Color(255, 51, 51));
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/stop.png"))); // NOI18N
         jButton5.setToolTipText("Стоп");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setBackground(new java.awt.Color(255, 255, 102));
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ico_alpha_TaskScheduling_32x32.png"))); // NOI18N
@@ -274,15 +512,19 @@ public class PBScore extends javax.swing.JFrame {
         jTextField10.setBackground(new java.awt.Color(204, 255, 255));
         jTextField10.setFont(new java.awt.Font("Courier New", 1, 36)); // NOI18N
         jTextField10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField10.setText("00:00:00.00");
+        jTextField10.setText("00:10:00.00");
+        jTextField10.setToolTipText("");
+        jTextField10.setComponentPopupMenu(jPopupMenu1);
 
         jTextField11.setBackground(new java.awt.Color(204, 255, 204));
         jTextField11.setFont(new java.awt.Font("Courier New", 1, 36)); // NOI18N
         jTextField11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField11.setText("00:00:00.00");
+        jTextField11.setComponentPopupMenu(jPopupMenu1);
 
         jButton9.setBackground(new java.awt.Color(204, 255, 255));
         jButton9.setText("Редактировать");
+        jButton9.setComponentPopupMenu(jPopupMenu1);
 
         jLabel1.setBackground(new java.awt.Color(204, 255, 255));
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -296,6 +538,7 @@ public class PBScore extends javax.swing.JFrame {
 
         jButton10.setBackground(new java.awt.Color(204, 255, 204));
         jButton10.setText("Редактировать");
+        jButton10.setComponentPopupMenu(jPopupMenu1);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -333,6 +576,7 @@ public class PBScore extends javax.swing.JFrame {
         );
 
         jTable1.setAutoCreateRowSorter(true);
+        jTable1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {index, null, null, null, null, null, null, null, null, null, null}
@@ -359,12 +603,15 @@ public class PBScore extends javax.swing.JFrame {
         jTable1.setCellSelectionEnabled(true);
         jTable1.setEditingColumn(1);
         jTable1.setEditingRow(1);
+        jTable1.setFocusTraversalPolicyProvider(true);
+        jTable1.setGridColor(new java.awt.Color(153, 153, 153));
+        jTable1.setShowGrid(true);
         jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 jTable1InputMethodTextChanged(evt);
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -425,52 +672,6 @@ public class PBScore extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Page 1", jPanel1);
-
-        jPanel2.setDoubleBuffered(false);
-        jPanel2.setEnabled(false);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1047, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 507, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Page 2", jPanel2);
-
-        jPanel3.setEnabled(false);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1047, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 507, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Page 3", jPanel3);
-
-        jPanel5.setEnabled(false);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1047, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 507, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Page 4", jPanel5);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.LINE_AXIS));
@@ -577,7 +778,7 @@ public class PBScore extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -617,23 +818,24 @@ public class PBScore extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1InputMethodTextChanged
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        saveScoreRow(currentSelectionRow);
         if (jTable1.getSelectedRow() > 0) {
-            saveScoreRow(currentSelectionRow);
             prevSelectionRow = currentSelectionRow;
             currentSelectionRow--;
             loadScoreRow(currentSelectionRow);
             jTable1.setRowSelectionInterval(currentSelectionRow, currentSelectionRow);
         }
+        loadScoreRow(currentSelectionRow);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        saveScoreRow(currentSelectionRow);
         if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() + 1 < jTable1.getRowCount()) {
-            saveScoreRow(currentSelectionRow);
             prevSelectionRow = currentSelectionRow;
             currentSelectionRow++;
-            loadScoreRow(currentSelectionRow);
             jTable1.setRowSelectionInterval(currentSelectionRow, currentSelectionRow);
         }
+        loadScoreRow(currentSelectionRow);
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -664,8 +866,188 @@ public class PBScore extends javax.swing.JFrame {
         //add 1 minut
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void loadScoreRow(Integer rowIndex) {
+    private long timer2long(String date){
+        Date parsingDate=null;
+        SimpleDateFormat ft = new SimpleDateFormat("mm:ss");
+        ft.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            parsingDate = ft.parse(date);
+        } catch (ParseException e) {
+            System.out.println("Нераспаршена с помощью " + ft);
+        }
+        return parsingDate.getTime();
+    }
+    
+    private void startTimers(){
+        try{
+            if(ftg.parse(jTextField11.getText()).getTime()>0){
+                timerTimeC=System.currentTimeMillis(); 
+                timeTimer.start();
+            }else{
+                gameTimeC = System.currentTimeMillis(); 
+                gameTimer.start();              
+            }
+        }catch(Exception e){
+            System.err.println(e);
+        }
+    }
+    
+    private void stopTimers(){
+        try{
+            if(ftg.parse(jTextField11.getText()).getTime()>0){
+                timeTimer.stop();
+            }else{
+                gameTimer.stop();              
+            }
+        }catch(Exception e){}
+    }
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        startTimers();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        stopTimers();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jRadioButtonMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem1ActionPerformed
+        gameTime = "20:00";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(gameTime);
+        jTextField10.setText(formatForDateNow.format(new Date(time)));
+    }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
+
+    private void jRadioButtonMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem8ActionPerformed
+        format="mm:ss";
+        ftg = new SimpleDateFormat(format);
+        ftg.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }//GEN-LAST:event_jRadioButtonMenuItem8ActionPerformed
+
+    private void jRadioButtonMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem9ActionPerformed
+        format="HH:mm:ss";
+        ftg = new SimpleDateFormat(format);
+        ftg.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }//GEN-LAST:event_jRadioButtonMenuItem9ActionPerformed
+
+    private void jRadioButtonMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem10ActionPerformed
+        format="HH:mm:ss.SSS";
+        ftg = new SimpleDateFormat(format);
+        ftg.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }//GEN-LAST:event_jRadioButtonMenuItem10ActionPerformed
+
+    private void jRadioButtonMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem2ActionPerformed
+        gameTime = "15:00";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(gameTime);
+        jTextField10.setText(formatForDateNow.format(new Date(time)));
+    }//GEN-LAST:event_jRadioButtonMenuItem2ActionPerformed
+
+    private void jRadioButtonMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem3ActionPerformed
+        gameTime = "10:00";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(gameTime);
+        jTextField10.setText(formatForDateNow.format(new Date(time)));
+    }//GEN-LAST:event_jRadioButtonMenuItem3ActionPerformed
+
+    private void jRadioButtonMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem4ActionPerformed
+        gameTime = "08:00";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(gameTime);
+        jTextField10.setText(formatForDateNow.format(new Date(time)));
+    }//GEN-LAST:event_jRadioButtonMenuItem4ActionPerformed
+
+    private void jRadioButtonMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem5ActionPerformed
+        gameTime = "06:00";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(gameTime);
+        jTextField10.setText(formatForDateNow.format(new Date(time)));
+    }//GEN-LAST:event_jRadioButtonMenuItem5ActionPerformed
+
+    private void jRadioButtonMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem6ActionPerformed
+        gameTime = "05:00";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(gameTime);
+        jTextField10.setText(formatForDateNow.format(new Date(time)));
+    }//GEN-LAST:event_jRadioButtonMenuItem6ActionPerformed
+
+    private void jRadioButtonMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem7ActionPerformed
+        gameTime = "01:00";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(gameTime);
+        jTextField10.setText(formatForDateNow.format(new Date(time)));
+    }//GEN-LAST:event_jRadioButtonMenuItem7ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        timerTime = "00:10";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(timerTime);
+        jTextField11.setText(formatForDateNow.format(new Date(time)));
+        startTimers();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        timerTime = "00:30";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(timerTime);
+        jTextField11.setText(formatForDateNow.format(new Date(time)));
+        startTimers();
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        timerTime = "01:00";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(timerTime);
+        jTextField11.setText(formatForDateNow.format(new Date(time)));
+        startTimers();
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        timerTime = "02:00";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(timerTime);
+        jTextField11.setText(formatForDateNow.format(new Date(time)));
+        startTimers();
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        timerTime = "5:00";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(timerTime);
+        jTextField11.setText(formatForDateNow.format(new Date(time)));
+        startTimers();
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        timerTime = "10:00";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long time=timer2long(timerTime);
+        jTextField11.setText(formatForDateNow.format(new Date(time)));
+        startTimers();
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void loadScoreRow(Integer rowIndex) {
+        jTextField6.setText(jTable1.getValueAt(rowIndex, 4).toString());
+        jTextField7.setText(String.format("%02d", Integer.parseInt(jTable1.getValueAt(rowIndex, 5).toString())));
+        jTextField8.setText(jTable1.getValueAt(rowIndex, 7).toString());
+        jTextField9.setText(String.format("%02d", Integer.parseInt(jTable1.getValueAt(rowIndex, 6).toString())));
+        jTextField10.setText(jTable1.getValueAt(rowIndex, 2).toString());
+        //timeout button
+        jButton1.setEnabled(!(Boolean) jTable1.getValueAt(rowIndex, 3));
+        jButton6.setEnabled(!(Boolean) jTable1.getValueAt(rowIndex, 8));
+        vBoxUpdate();
     }
 
     private void vBoxUpdate() {
@@ -699,24 +1081,26 @@ public class PBScore extends javax.swing.JFrame {
     private void saveScoreRow(Integer rowIndex) {
         //column 4 5 6 7 9 10
         vBoxUpdate();
-        jTable1.setValueAt(jTextField6.getText(), currentSelectionRow, 4);
-        jTable1.setValueAt(jTextField7.getText(), currentSelectionRow, 5);
-        jTable1.setValueAt(jTextField8.getText(), currentSelectionRow, 7);
-        jTable1.setValueAt(jTextField9.getText(), currentSelectionRow, 6);
-        jTable1.setValueAt(jTextField10.getText(), currentSelectionRow, 2);
+        jTable1.setValueAt(jTextField6.getText(), rowIndex, 4);
+        jTable1.setValueAt(jTextField7.getText(), rowIndex, 5);
+        jTable1.setValueAt(jTextField8.getText(), rowIndex, 7);
+        jTable1.setValueAt(jTextField9.getText(), rowIndex, 6);
+        jTable1.setValueAt(jTextField10.getText(), rowIndex, 2);
+        jTable1.setValueAt(!jButton1.isEnabled(), rowIndex, 3);
+        jTable1.setValueAt(!jButton6.isEnabled(), rowIndex, 8);
         if (jCheckBoxMenuItem4.isSelected()) {
-            //System.out.println(Integer.parseInt(jTextField7.getText()));
+            //если включен подсчет очков
             if (Integer.parseInt(jTextField7.getText()) > Integer.parseInt(jTextField9.getText())) {
                 Integer res = Integer.parseInt(jTextField7.getText()) - Integer.parseInt(jTextField9.getText());
-                jTable1.setValueAt("1/" + res, currentSelectionRow, 9);
-                jTable1.setValueAt("0/" + (-res), currentSelectionRow, 10);
+                jTable1.setValueAt("1/" + res, rowIndex, 9);
+                jTable1.setValueAt("0/" + (-res), rowIndex, 10);
             } else if (Integer.parseInt(jTextField7.getText()) < Integer.parseInt(jTextField9.getText())) {
                 Integer res = Integer.parseInt(jTextField7.getText()) - Integer.parseInt(jTextField9.getText());
-                jTable1.setValueAt("0/" + res, currentSelectionRow, 9);
-                jTable1.setValueAt("1/" + (-res), currentSelectionRow, 10);
+                jTable1.setValueAt("0/" + res, rowIndex, 9);
+                jTable1.setValueAt("1/" + (-res), rowIndex, 10);
             } else {
-                jTable1.setValueAt("1/0", currentSelectionRow, 9);
-                jTable1.setValueAt("1/0", currentSelectionRow, 10);
+                jTable1.setValueAt("1/0", rowIndex, 9);
+                jTable1.setValueAt("1/0", rowIndex, 10);
 
             }
         } else {
@@ -761,6 +1145,8 @@ public class PBScore extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -778,29 +1164,43 @@ public class PBScore extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem3;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem4;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem5;
     private javax.swing.JCheckBoxMenuItem jCheckViewBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem10;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem3;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem4;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem5;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem6;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem7;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem8;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;

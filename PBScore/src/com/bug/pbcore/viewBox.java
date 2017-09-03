@@ -62,8 +62,8 @@ public class viewBox extends javax.swing.JFrame {
                 if("GameTime".equals(fieldName)){
                         jTextField1.setText(e.data.get(fieldName).toString());
                 }
-                if("GameTime".equals(fieldName)){
-                        jTextField1.setText(e.data.get(fieldName).toString());
+                if("TimerTime".equals(fieldName)){
+                        jTextField9.setText(e.data.get(fieldName).toString());
                 }
                 if("Team1Score".equals(fieldName)){
                         jTextField2.setText(String.format("%02d", e.data.get(fieldName)));
