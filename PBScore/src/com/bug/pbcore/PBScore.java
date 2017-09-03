@@ -5,13 +5,9 @@
  */
 package com.bug.pbcore;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -21,16 +17,18 @@ import javax.swing.table.DefaultTableModel;
  * @author bkantor
  */
 public class PBScore extends javax.swing.JFrame {
-    private ArrayList<vBoxEventsListener> listeners = new ArrayList<vBoxEventsListener>();
+
     /**
      * Creates new form PBScore
      */
-    int index=0;
-    int currentSelectionRow=0;
-    int prevSelectionRow=0;
-    vBoxStructure vBoxData;
+    int index = 0;
+    int currentSelectionRow = 0;
+    int prevSelectionRow = 0;
+    public Map<String, Object> data = new HashMap<String, Object>();
     viewBox frame = new viewBox();
-
+    
+    viewBoxEvents viEvents = new viewBoxEvents(this);
+    
     public PBScore() {
         initComponents();
         ImageIcon imgicon = new ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"));
@@ -38,22 +36,21 @@ public class PBScore extends javax.swing.JFrame {
         jTable1.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent evt) {
-                if(evt.getType()==TableModelEvent.UPDATE){
+                if (evt.getType() == TableModelEvent.UPDATE) {
                     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                    Boolean flAdd=true;
-                    int c=model.getRowCount();
+                    Boolean flAdd = true;
+                    int c = model.getRowCount();
                     c--;
-                    for(int i=0; i<model.getColumnCount();i++){
-                        if(evt.getLastRow()!=c){
-                            flAdd=false;
+                    for (int i = 0; i < model.getColumnCount(); i++) {
+                        if (evt.getLastRow() != c) {
+                            flAdd = false;
                         }
                     }
-                    if(flAdd){
+                    if (flAdd) {
                         index++;
-                        model.insertRow(model.getRowCount(), new Object [] {index, null, null, null, null, null, null, null, null, null});
+                        model.insertRow(model.getRowCount(), new Object[]{index, null, null, null, null, null, null, null, null, null});
                     }
                 }
-                
 
             }
         });
@@ -604,25 +601,25 @@ public class PBScore extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-            saveScoreRow(currentSelectionRow);
-            prevSelectionRow=currentSelectionRow;
-            currentSelectionRow=jTable1.getSelectedRow();
-            loadScoreRow(currentSelectionRow);
+        saveScoreRow(currentSelectionRow);
+        prevSelectionRow = currentSelectionRow;
+        currentSelectionRow = jTable1.getSelectedRow();
+        loadScoreRow(currentSelectionRow);
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        jTextField7.setText(String.format("%02d", Integer.parseInt(jTextField7.getText())+1));
+        jTextField7.setText(String.format("%02d", Integer.parseInt(jTextField7.getText()) + 1));
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTable1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTable1InputMethodTextChanged
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                model.addRow(new Object [] {null, null, null, null, null, null, null, null, null, null});
+        model.addRow(new Object[]{null, null, null, null, null, null, null, null, null, null});
     }//GEN-LAST:event_jTable1InputMethodTextChanged
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        if(jTable1.getSelectedRow()>0){
+        if (jTable1.getSelectedRow() > 0) {
             saveScoreRow(currentSelectionRow);
-            prevSelectionRow=currentSelectionRow;
+            prevSelectionRow = currentSelectionRow;
             currentSelectionRow--;
             loadScoreRow(currentSelectionRow);
             jTable1.setRowSelectionInterval(currentSelectionRow, currentSelectionRow);
@@ -630,9 +627,9 @@ public class PBScore extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        if(jTable1.getSelectedRow()!=-1 && jTable1.getSelectedRow()+1<jTable1.getRowCount()){
+        if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() + 1 < jTable1.getRowCount()) {
             saveScoreRow(currentSelectionRow);
-            prevSelectionRow=currentSelectionRow;
+            prevSelectionRow = currentSelectionRow;
             currentSelectionRow++;
             loadScoreRow(currentSelectionRow);
             jTable1.setRowSelectionInterval(currentSelectionRow, currentSelectionRow);
@@ -640,63 +637,93 @@ public class PBScore extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if(Integer.parseInt(jTextField7.getText())>0){
-            jTextField7.setText(String.format("%02d", Integer.parseInt(jTextField7.getText())-1));
+        if (Integer.parseInt(jTextField7.getText()) > 0) {
+            jTextField7.setText(String.format("%02d", Integer.parseInt(jTextField7.getText()) - 1));
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        if(Integer.parseInt(jTextField9.getText())>0){
-            jTextField9.setText(String.format("%02d", Integer.parseInt(jTextField9.getText())-1));
+        if (Integer.parseInt(jTextField9.getText()) > 0) {
+            jTextField9.setText(String.format("%02d", Integer.parseInt(jTextField9.getText()) - 1));
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        jTextField9.setText(String.format("%02d", Integer.parseInt(jTextField9.getText())+1));
+        jTextField9.setText(String.format("%02d", Integer.parseInt(jTextField9.getText()) + 1));
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jButton1.setEnabled(false);
         jTable1.setValueAt(true, currentSelectionRow, 3);
-        //generate event update
         //add 1 minut
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jButton6.setEnabled(false);
         jTable1.setValueAt(true, currentSelectionRow, 8);
-        //generate event update
         //add 1 minut
     }//GEN-LAST:event_jButton6ActionPerformed
-    
-    private void loadScoreRow(Integer rowIndex){
-        
+
+    private void loadScoreRow(Integer rowIndex) {
+
     }
-    private void saveScoreRow(Integer rowIndex){
+
+    private void vBoxUpdate() {
+        data.put("Team1Score", Integer.parseInt(jTextField7.getText()));
+        data.put("Team2Score", Integer.parseInt(jTextField9.getText()));
+        data.put("Team1Name", jTextField6.getText());
+        data.put("Team2Name", jTextField8.getText());
+        data.put("Team1timeout", !jButton1.isEnabled());
+        data.put("Team2timeout", !jButton6.isEnabled());
+        data.put("GameTime", jTextField10.getText());
+        data.put("TimerTime", jTextField11.getText());
+        if (jCheckBoxMenuItem4.isSelected()) {
+            //System.out.println(Integer.parseInt(jTextField7.getText()));
+            if (Integer.parseInt(jTextField7.getText()) > Integer.parseInt(jTextField9.getText())) {
+                Integer res = Integer.parseInt(jTextField7.getText()) - Integer.parseInt(jTextField9.getText());
+                data.put("Team1ScoreS", "1/" + res);
+                data.put("Team2ScoreS", "0/" + (-res));
+            } else if (Integer.parseInt(jTextField7.getText()) < Integer.parseInt(jTextField9.getText())) {
+                Integer res = Integer.parseInt(jTextField7.getText()) - Integer.parseInt(jTextField9.getText());
+                data.put("Team1ScoreS", "0/" + res);
+                data.put("Team2ScoreS", "1/" + (-res));
+            } else {
+                data.put("Team1ScoreS", "1/0");
+                data.put("Team2ScoreS", "1/0");
+            }
+        } else {
+        }
+        frame.viEvents.fireVBoxEvents(data);
+    }
+
+    private void saveScoreRow(Integer rowIndex) {
         //column 4 5 6 7 9 10
+        vBoxUpdate();
         jTable1.setValueAt(jTextField6.getText(), currentSelectionRow, 4);
         jTable1.setValueAt(jTextField7.getText(), currentSelectionRow, 5);
         jTable1.setValueAt(jTextField8.getText(), currentSelectionRow, 7);
         jTable1.setValueAt(jTextField9.getText(), currentSelectionRow, 6);
         jTable1.setValueAt(jTextField10.getText(), currentSelectionRow, 2);
-        if(jCheckBoxMenuItem4.isSelected()){
+        if (jCheckBoxMenuItem4.isSelected()) {
             //System.out.println(Integer.parseInt(jTextField7.getText()));
-            if(Integer.parseInt(jTextField7.getText())>Integer.parseInt(jTextField9.getText())){
-                Integer res=Integer.parseInt(jTextField7.getText())-Integer.parseInt(jTextField9.getText());
-                jTable1.setValueAt("1/"+res, currentSelectionRow, 9);
-                jTable1.setValueAt("0/"+(-res), currentSelectionRow, 10);
-            }else if(Integer.parseInt(jTextField7.getText())<Integer.parseInt(jTextField9.getText())){
-                Integer res=Integer.parseInt(jTextField7.getText())-Integer.parseInt(jTextField9.getText());
-                jTable1.setValueAt("0/"+res, currentSelectionRow, 9);
-                jTable1.setValueAt("1/"+(-res), currentSelectionRow, 10);            
-            }else{
+            if (Integer.parseInt(jTextField7.getText()) > Integer.parseInt(jTextField9.getText())) {
+                Integer res = Integer.parseInt(jTextField7.getText()) - Integer.parseInt(jTextField9.getText());
+                jTable1.setValueAt("1/" + res, currentSelectionRow, 9);
+                jTable1.setValueAt("0/" + (-res), currentSelectionRow, 10);
+            } else if (Integer.parseInt(jTextField7.getText()) < Integer.parseInt(jTextField9.getText())) {
+                Integer res = Integer.parseInt(jTextField7.getText()) - Integer.parseInt(jTextField9.getText());
+                jTable1.setValueAt("0/" + res, currentSelectionRow, 9);
+                jTable1.setValueAt("1/" + (-res), currentSelectionRow, 10);
+            } else {
                 jTable1.setValueAt("1/0", currentSelectionRow, 9);
-                jTable1.setValueAt("1/0", currentSelectionRow, 10);            
-                
+                jTable1.setValueAt("1/0", currentSelectionRow, 10);
+
             }
+        } else {
         }
 
     }
+
     /**
      * @param args the command line arguments
      */
@@ -790,23 +817,5 @@ public class PBScore extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
-    public void addVBoxEventsListener(vBoxEventsListener listener) {
-        listeners.add(listener);
-    }
-
-    public vBoxEventsListener[] getVBoxEventsListeners() {
-        return listeners.toArray(new vBoxEventsListener[listeners.size()]);
-    }
-
-    public void removeVBoxEventsListener(vBoxEventsListener listener) {
-        listeners.remove(listener);
-    }
-
-    protected void fireVBoxEvents(vBoxStructure data) {
-        viewBoxEvents ev = new viewBoxEvents(this, data);
-        for(vBoxEventsListener listener:listeners) {
-            listener.viewBoxEvent(ev);
-        }
-    }
 
 }

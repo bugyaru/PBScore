@@ -11,4 +11,5 @@ package com.bug.pbcore;
  */
 public interface vBoxEventsListener {
     public void viewBoxEvent(viewBoxEvents e);
+    public void viewBoxFieldEvent(String fieldName, viewBoxEvents e);
 }
