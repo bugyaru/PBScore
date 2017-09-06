@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
@@ -35,16 +37,19 @@ public class PBScore extends javax.swing.JFrame {
     int prevSelectionRow = 0;
     public Map<String, Object> data = new HashMap<String, Object>();
     viewBox frame = new viewBox();
+    manualTimer mTimerBox = new manualTimer();
     Timer gameTimer, timeTimer;
     String gameTime = "10:00";
     String timerTime = "00:00";
     String format = "HH:mm:ss.SSS";
     SimpleDateFormat ftg = new SimpleDateFormat(format);
-    
-    long gameTimeC,timerTimeC;
+    Boolean flTimerLogic = false, flGameLogic = false;
+    long gameTimeC, timerTimeC;
+    soundModule sound;
 
     public PBScore() {
         initComponents();
+        sound = new soundModule();
         ftg.setTimeZone(TimeZone.getTimeZone("UTC"));
         ImageIcon imgicon = new ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"));
         setIconImage(imgicon.getImage());
@@ -70,56 +75,156 @@ public class PBScore extends javax.swing.JFrame {
             }
         });
         gameTimer = new Timer(100, new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
                 formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-                long time=timer2long(gameTime)-(System.currentTimeMillis() - gameTimeC);
-                if(time>=0){
+                long time = timer2long(gameTime) - (System.currentTimeMillis() - gameTimeC);
+                if (time >= 0) {
                     jTextField10.setText(formatForDateNow.format(new Date(time)));
-                }else{
+                    gameTimeAudioLogic();
+                } else {
                     jTextField10.setText(formatForDateNow.format(new Date(0)));
                     gameTimer.stop();
+                    if (jCheckSound.isSelected()) {
+                        sound.setResourseName("stop.wav");
+                        sound.start();
+                    }
                 }
                 //System.out.println("====="+(new Date(time).toString())+"-----"+time+"   "+(new Date(0).toString()));
             }
         });
         timeTimer = new Timer(100, new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
                 formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-                long time=timer2long(timerTime)-(System.currentTimeMillis() - timerTimeC);
-                if(time>=0){
+                long time = timer2long(timerTime) - (System.currentTimeMillis() - timerTimeC);
+                if (time >= 0) {
                     jTextField11.setText(formatForDateNow.format(new Date(time)));
-                }else{
+                    timerTimeAudioLogic();
+                } else {
                     jTextField11.setText(formatForDateNow.format(new Date(0)));
                     timeTimer.stop();
-                    gameTimeC = System.currentTimeMillis(); 
+                    if (jCheckSound.isSelected()) {
+                        sound=new soundModule();
+                        sound.setResourseName("start.wav");
+                        sound.start();
+                    }
+                    gameTimeC = System.currentTimeMillis();
                     gameTimer.start();
                 }
             }
         });
         jPanel6.setComponentPopupMenu(jPopupMenu1);
-        
         jTextField10.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
             public void changedUpdate(DocumentEvent e) {
             }
+
+            @Override
             public void removeUpdate(DocumentEvent e) {
             }
+
+            @Override
             public void insertUpdate(DocumentEvent e) {
                 data.put("GameTime", jTextField10.getText());
                 frame.viEvents.fireVBoxEventField("GameTime", data);
             }
         });
         jTextField11.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
             public void changedUpdate(DocumentEvent e) {
             }
+
+            @Override
             public void removeUpdate(DocumentEvent e) {
             }
+
+            @Override
             public void insertUpdate(DocumentEvent e) {
                 data.put("TimerTime", jTextField11.getText());
                 frame.viEvents.fireVBoxEventField("TimerTime", data);
             }
         });
+        //test block
+        System.out.println(new Date(timer2long("01:00") + timer2long("01:00")));
+    }
+
+    private void timerTimeAudioLogic() {
+        if (jCheckSound.isSelected()) {
+            try {
+                SimpleDateFormat formatForDateNow = new SimpleDateFormat("mm:ss");
+                formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+                String time = formatForDateNow.format(new Date(ftg.parse(jTextField11.getText()).getTime()));
+                if ("02:00".equals(time)) {
+                    if (!flTimerLogic) {
+                        sound=new soundModule();
+                        sound.setResourseName("2minut.wav");
+                        sound.start();
+                        flTimerLogic = true;
+                    }
+                } else if ("01:00".equals(time)) {
+                    if (!flTimerLogic) {
+                        sound=new soundModule();
+                        sound.setResourseName("1minut.wav");
+                        sound.start();
+                        flTimerLogic = true;
+                    }
+                } else if ("00:30".equals(time)) {
+                    if (!flTimerLogic) {
+                        sound=new soundModule();
+                        sound.setResourseName("30second.wav");
+                        sound.start();
+                        flTimerLogic = true;
+                    }
+                } else if ("00:10".equals(time)) {
+                    if (!flTimerLogic) {
+                        sound=new soundModule();
+                        sound.setResourseName("10second.wav");
+                        sound.start();
+                        flTimerLogic = true;
+                    }
+                } else {
+                    if (flTimerLogic) {
+                        flTimerLogic = false;
+                    }
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private void gameTimeAudioLogic() {
+        if (jCheckSound.isSelected()) {
+            try {
+                SimpleDateFormat formatForDateNow = new SimpleDateFormat("mm:ss");
+                formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+                String time = formatForDateNow.format(new Date(ftg.parse(jTextField10.getText()).getTime()));
+                if ("02:00".equals(time)) {
+                    if (!flGameLogic) {
+                        sound=new soundModule();
+                        sound.setResourseName("60second.wav");
+                        sound.start();
+                        flGameLogic = true;
+                    }
+                } else {
+                    if (flGameLogic) {
+                        flGameLogic = false;
+                    }
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private void addTimerTime(long time) {
+        //add to timerTime time
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("mm:ss");
+        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+        timerTime = formatForDateNow.format(new Date(timer2long(timerTime) + time));
     }
 
     /**
@@ -198,10 +303,10 @@ public class PBScore extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jCheckViewBox = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem3 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem4 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        jCheckElTablo = new javax.swing.JCheckBoxMenuItem();
+        jCheckSound = new javax.swing.JCheckBoxMenuItem();
+        jCheckScore = new javax.swing.JCheckBoxMenuItem();
+        jCheckStream = new javax.swing.JCheckBoxMenuItem();
 
         jMenu3.setText("Период");
 
@@ -743,26 +848,26 @@ public class PBScore extends javax.swing.JFrame {
         });
         jMenu4.add(jCheckViewBox);
 
-        jCheckBoxMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
-        jCheckBoxMenuItem2.setText("ELTABLO");
-        jCheckBoxMenuItem2.setEnabled(false);
-        jCheckBoxMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/eltablo.png"))); // NOI18N
-        jMenu4.add(jCheckBoxMenuItem2);
+        jCheckElTablo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
+        jCheckElTablo.setText("ELTABLO");
+        jCheckElTablo.setEnabled(false);
+        jCheckElTablo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/eltablo.png"))); // NOI18N
+        jMenu4.add(jCheckElTablo);
 
-        jCheckBoxMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
-        jCheckBoxMenuItem3.setText("Sound");
-        jCheckBoxMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/PBLeftImage32.png"))); // NOI18N
-        jMenu4.add(jCheckBoxMenuItem3);
+        jCheckSound.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
+        jCheckSound.setText("Sound");
+        jCheckSound.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/PBLeftImage32.png"))); // NOI18N
+        jMenu4.add(jCheckSound);
 
-        jCheckBoxMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.CTRL_MASK));
-        jCheckBoxMenuItem4.setText("AI ;)");
-        jCheckBoxMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"))); // NOI18N
-        jMenu4.add(jCheckBoxMenuItem4);
+        jCheckScore.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.CTRL_MASK));
+        jCheckScore.setText("AI ;)");
+        jCheckScore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"))); // NOI18N
+        jMenu4.add(jCheckScore);
 
-        jCheckBoxMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_5, java.awt.event.InputEvent.CTRL_MASK));
-        jCheckBoxMenuItem1.setText("VidBlaster");
-        jCheckBoxMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/VIDBLAST.png"))); // NOI18N
-        jMenu4.add(jCheckBoxMenuItem1);
+        jCheckStream.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_5, java.awt.event.InputEvent.CTRL_MASK));
+        jCheckStream.setText("VidBlaster");
+        jCheckStream.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/VIDBLAST.png"))); // NOI18N
+        jMenu4.add(jCheckStream);
 
         jMenuBar1.add(jMenu4);
 
@@ -857,49 +962,61 @@ public class PBScore extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jButton1.setEnabled(false);
         jTable1.setValueAt(true, currentSelectionRow, 3);
-        //add 1 minut
+        addTimerTime(timer2long("01:00"));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jButton6.setEnabled(false);
         jTable1.setValueAt(true, currentSelectionRow, 8);
-        //add 1 minut
+        addTimerTime(timer2long("01:00"));
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private long timer2long(String date){
-        Date parsingDate=null;
+    private long timer2long(String date) {
+        Date parsingDate = null;
         SimpleDateFormat ft = new SimpleDateFormat("mm:ss");
         ft.setTimeZone(TimeZone.getTimeZone("UTC"));
         try {
             parsingDate = ft.parse(date);
         } catch (ParseException e) {
-            System.out.println("Нераспаршена с помощью " + ft);
+            Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, e);
         }
         return parsingDate.getTime();
     }
-    
-    private void startTimers(){
-        try{
-            if(ftg.parse(jTextField11.getText()).getTime()>0){
-                timerTimeC=System.currentTimeMillis(); 
+
+    private void startTimers() {
+        try {
+            if (ftg.parse(jTextField11.getText()).getTime() > 0) {
+                timerTimeC = System.currentTimeMillis();
                 timeTimer.start();
-            }else{
-                gameTimeC = System.currentTimeMillis(); 
-                gameTimer.start();              
+            } else {
+                if (jCheckSound.isSelected()) {
+                    sound=new soundModule();
+                    sound.setResourseName("start.wav");
+                    sound.start();
+                }
+                gameTimeC = System.currentTimeMillis();
+                gameTimer.start();
             }
-        }catch(Exception e){
-            System.err.println(e);
+        } catch (ParseException e) {
+            Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-    
-    private void stopTimers(){
-        try{
-            if(ftg.parse(jTextField11.getText()).getTime()>0){
+
+    private void stopTimers() {
+        if (jCheckSound.isSelected()) {
+            sound=new soundModule();
+            sound.setResourseName("stop.wav");
+            sound.start();
+        }
+        try {
+            if (ftg.parse(jTextField11.getText()).getTime() > 0) {
                 timeTimer.stop();
-            }else{
-                gameTimer.stop();              
+            } else {
+                gameTimer.stop();
             }
-        }catch(Exception e){}
+        } catch (ParseException e) {
+            Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -914,24 +1031,24 @@ public class PBScore extends javax.swing.JFrame {
         gameTime = "20:00";
         SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
         formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(gameTime);
+        long time = timer2long(gameTime);
         jTextField10.setText(formatForDateNow.format(new Date(time)));
     }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
 
     private void jRadioButtonMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem8ActionPerformed
-        format="mm:ss";
+        format = "mm:ss";
         ftg = new SimpleDateFormat(format);
         ftg.setTimeZone(TimeZone.getTimeZone("UTC"));
     }//GEN-LAST:event_jRadioButtonMenuItem8ActionPerformed
 
     private void jRadioButtonMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem9ActionPerformed
-        format="HH:mm:ss";
+        format = "HH:mm:ss";
         ftg = new SimpleDateFormat(format);
         ftg.setTimeZone(TimeZone.getTimeZone("UTC"));
     }//GEN-LAST:event_jRadioButtonMenuItem9ActionPerformed
 
     private void jRadioButtonMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem10ActionPerformed
-        format="HH:mm:ss.SSS";
+        format = "HH:mm:ss.SSS";
         ftg = new SimpleDateFormat(format);
         ftg.setTimeZone(TimeZone.getTimeZone("UTC"));
     }//GEN-LAST:event_jRadioButtonMenuItem10ActionPerformed
@@ -940,7 +1057,7 @@ public class PBScore extends javax.swing.JFrame {
         gameTime = "15:00";
         SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
         formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(gameTime);
+        long time = timer2long(gameTime);
         jTextField10.setText(formatForDateNow.format(new Date(time)));
     }//GEN-LAST:event_jRadioButtonMenuItem2ActionPerformed
 
@@ -948,7 +1065,7 @@ public class PBScore extends javax.swing.JFrame {
         gameTime = "10:00";
         SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
         formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(gameTime);
+        long time = timer2long(gameTime);
         jTextField10.setText(formatForDateNow.format(new Date(time)));
     }//GEN-LAST:event_jRadioButtonMenuItem3ActionPerformed
 
@@ -956,7 +1073,7 @@ public class PBScore extends javax.swing.JFrame {
         gameTime = "08:00";
         SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
         formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(gameTime);
+        long time = timer2long(gameTime);
         jTextField10.setText(formatForDateNow.format(new Date(time)));
     }//GEN-LAST:event_jRadioButtonMenuItem4ActionPerformed
 
@@ -964,7 +1081,7 @@ public class PBScore extends javax.swing.JFrame {
         gameTime = "06:00";
         SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
         formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(gameTime);
+        long time = timer2long(gameTime);
         jTextField10.setText(formatForDateNow.format(new Date(time)));
     }//GEN-LAST:event_jRadioButtonMenuItem5ActionPerformed
 
@@ -972,23 +1089,24 @@ public class PBScore extends javax.swing.JFrame {
         gameTime = "05:00";
         SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
         formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(gameTime);
+        long time = timer2long(gameTime);
         jTextField10.setText(formatForDateNow.format(new Date(time)));
     }//GEN-LAST:event_jRadioButtonMenuItem6ActionPerformed
 
     private void jRadioButtonMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem7ActionPerformed
-        gameTime = "01:00";
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
-        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(gameTime);
-        jTextField10.setText(formatForDateNow.format(new Date(time)));
+//        gameTime = "01:00";
+//        SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
+//        formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
+//        long time = timer2long(gameTime);
+//        jTextField10.setText(formatForDateNow.format(new Date(time)));
+        mTimerBox.setVisible(true);
     }//GEN-LAST:event_jRadioButtonMenuItem7ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         timerTime = "00:10";
         SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
         formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(timerTime);
+        long time = timer2long(timerTime);
         jTextField11.setText(formatForDateNow.format(new Date(time)));
         startTimers();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -997,7 +1115,7 @@ public class PBScore extends javax.swing.JFrame {
         timerTime = "00:30";
         SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
         formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(timerTime);
+        long time = timer2long(timerTime);
         jTextField11.setText(formatForDateNow.format(new Date(time)));
         startTimers();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
@@ -1006,7 +1124,7 @@ public class PBScore extends javax.swing.JFrame {
         timerTime = "01:00";
         SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
         formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(timerTime);
+        long time = timer2long(timerTime);
         jTextField11.setText(formatForDateNow.format(new Date(time)));
         startTimers();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
@@ -1015,7 +1133,7 @@ public class PBScore extends javax.swing.JFrame {
         timerTime = "02:00";
         SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
         formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(timerTime);
+        long time = timer2long(timerTime);
         jTextField11.setText(formatForDateNow.format(new Date(time)));
         startTimers();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
@@ -1024,7 +1142,7 @@ public class PBScore extends javax.swing.JFrame {
         timerTime = "5:00";
         SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
         formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(timerTime);
+        long time = timer2long(timerTime);
         jTextField11.setText(formatForDateNow.format(new Date(time)));
         startTimers();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
@@ -1033,7 +1151,7 @@ public class PBScore extends javax.swing.JFrame {
         timerTime = "10:00";
         SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
         formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long time=timer2long(timerTime);
+        long time = timer2long(timerTime);
         jTextField11.setText(formatForDateNow.format(new Date(time)));
         startTimers();
     }//GEN-LAST:event_jMenuItem11ActionPerformed
@@ -1059,7 +1177,7 @@ public class PBScore extends javax.swing.JFrame {
         data.put("Team2timeout", !jButton6.isEnabled());
         data.put("GameTime", jTextField10.getText());
         data.put("TimerTime", jTextField11.getText());
-        if (jCheckBoxMenuItem4.isSelected()) {
+        if (jCheckScore.isSelected()) {
             //System.out.println(Integer.parseInt(jTextField7.getText()));
             if (Integer.parseInt(jTextField7.getText()) > Integer.parseInt(jTextField9.getText())) {
                 Integer res = Integer.parseInt(jTextField7.getText()) - Integer.parseInt(jTextField9.getText());
@@ -1088,7 +1206,7 @@ public class PBScore extends javax.swing.JFrame {
         jTable1.setValueAt(jTextField10.getText(), rowIndex, 2);
         jTable1.setValueAt(!jButton1.isEnabled(), rowIndex, 3);
         jTable1.setValueAt(!jButton6.isEnabled(), rowIndex, 8);
-        if (jCheckBoxMenuItem4.isSelected()) {
+        if (jCheckScore.isSelected()) {
             //если включен подсчет очков
             if (Integer.parseInt(jTextField7.getText()) > Integer.parseInt(jTextField9.getText())) {
                 Integer res = Integer.parseInt(jTextField7.getText()) - Integer.parseInt(jTextField9.getText());
@@ -1137,6 +1255,7 @@ public class PBScore extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new PBScore().setVisible(true);
             }
@@ -1160,10 +1279,10 @@ public class PBScore extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem3;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem4;
+    private javax.swing.JCheckBoxMenuItem jCheckElTablo;
+    private javax.swing.JCheckBoxMenuItem jCheckScore;
+    private javax.swing.JCheckBoxMenuItem jCheckSound;
+    private javax.swing.JCheckBoxMenuItem jCheckStream;
     private javax.swing.JCheckBoxMenuItem jCheckViewBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
