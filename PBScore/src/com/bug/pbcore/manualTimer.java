@@ -5,15 +5,11 @@
  */
 package com.bug.pbcore;
 
-import java.awt.Font;
-import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -37,10 +33,11 @@ public class manualTimer extends javax.swing.JFrame {
         timeL=0;
         try{
             timeL=ftg.parse(timeS).getTime();
-        }catch(Exception ex){
+        }catch(ParseException ex){
             Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, ex);
         }
         initComponents();
+
     }
 
     /**
@@ -61,14 +58,15 @@ public class manualTimer extends javax.swing.JFrame {
         jTextField13 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Установить таймер");
         setAlwaysOnTop(true);
         setIconImages(null);
+        setLocation(new java.awt.Point(100, 100));
+        setLocationByPlatform(true);
         setModalExclusionType(null);
         addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                formComponentResized(evt);
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
             }
         });
 
@@ -153,10 +151,6 @@ public class manualTimer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-
-    }//GEN-LAST:event_formComponentResized
-
     private void jTextField13FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField13FocusLost
         if(!jTextField13.getText().equals("00")){
             if(!jButton1.isEnabled()) jButton1.setEnabled(true);
@@ -181,16 +175,16 @@ public class manualTimer extends javax.swing.JFrame {
         }else if(Integer.parseInt(jTextField13.getText())<0){
             jTextField13.setText("00");
         }
-        if(Integer.parseInt(jTextField11.getText())>59){
+        if(Integer.parseInt(jTextField12.getText())>59){
             jTextField12.setText("59");
-        }else if(Integer.parseInt(jTextField13.getText())<0){
+        }else if(Integer.parseInt(jTextField12.getText())<0){
             jTextField12.setText("00");
         }
         if(Integer.parseInt(jTextField11.getText())>23){
             jTextField11.setText("23");
             jTextField12.setText("59");
             jTextField13.setText("59");
-        }else if(Integer.parseInt(jTextField13.getText())<0){
+        }else if(Integer.parseInt(jTextField11.getText())<0){
             jTextField11.setText("00");
         }
         jTextField11.setText(String.format("%02d", Integer.parseInt(jTextField11.getText())));
@@ -199,15 +193,37 @@ public class manualTimer extends javax.swing.JFrame {
         timeS=""+jTextField11.getText()+":"+jTextField12.getText()+":"+jTextField13.getText();
         try{
             timeL=ftg.parse(timeS).getTime();
-        }catch(Exception ex){
+        }catch(ParseException ex){
             Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, ex);
         }        
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
-    private String getTimeString(){
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        String[] r=timeS.split(":");
+        if(r.length<3){
+            jTextField11.setText("00");
+            jTextField12.setText(r[0]);
+            jTextField13.setText(r[1]);
+        }else{
+            jTextField11.setText(r[0]);
+            jTextField12.setText(r[1]);
+            jTextField13.setText(r[2]);
+        }
+    }//GEN-LAST:event_formComponentShown
+    public String getTimeString(){
         return timeS;
     }
-    private long getTimeLong(){
+    public long getTimeLong(){
         return timeL;
+    }
+    public void setTimeString(String s){
+        this.timeS=s;
+        try{
+            timeL=ftg.parse(s).getTime();
+        }catch(ParseException ex){
+            Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, ex);
+        }        
     }
     /**
      * @param args the command line arguments
