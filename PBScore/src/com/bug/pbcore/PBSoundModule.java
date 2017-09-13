@@ -16,7 +16,7 @@ import javax.sound.sampled.Clip;
  *
  * @author admin
  */
-public class soundModule extends Thread {
+public class PBSoundModule extends Thread {
 
     private String resourseName = "";
     private AudioInputStream ais = null;

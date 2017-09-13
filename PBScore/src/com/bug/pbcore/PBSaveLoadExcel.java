@@ -22,13 +22,13 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
  *
  * @author admin
  */
-public class SaveLoadExcel {
+public class PBSaveLoadExcel {
 
     private Workbook wb;
     private String SheetName;
     private List<List<Object>> data = new ArrayList<List<Object>>();
 
-    public SaveLoadExcel(File file) throws FileNotFoundException, IOException, InvalidFormatException {
+    public PBSaveLoadExcel(File file) throws FileNotFoundException, IOException, InvalidFormatException {
         InputStream in = new FileInputStream(file);
         String[] flarr = file.getName().split("\\.");
         //System.out.println(flarr[flarr.length-1]);

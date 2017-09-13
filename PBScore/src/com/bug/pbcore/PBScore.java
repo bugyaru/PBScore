@@ -5,6 +5,7 @@
  */
 package com.bug.pbcore;
 
+import com.apple.eawt.Application;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -44,9 +45,9 @@ public class PBScore extends javax.swing.JFrame {
     int currentSelectionRow = 0;
     int prevSelectionRow = 0;
     public Map<String, Object> data = new HashMap<String, Object>();
-    viewBox frame = new viewBox();
-    manualTimer mTimerBox = new manualTimer();
-    manualTimer mGameBox = new manualTimer();
+    PBViewBox frame = new PBViewBox();
+    PBManualTimer mTimerBox = new PBManualTimer();
+    PBManualTimer mGameBox = new PBManualTimer();
     Timer gameTimer, timeTimer;
     String gameTime = "10:00";
     String timerTime = "00:00";
@@ -54,14 +55,15 @@ public class PBScore extends javax.swing.JFrame {
     SimpleDateFormat ftg = new SimpleDateFormat(format);
     Boolean flTimerLogic = false, flGameLogic = false;
     long gameTimeC, timerTimeC;
-    soundModule sound;
-    SaveLoadExcel sle = null;
+    PBSoundModule sound;
+    PBSaveLoadExcel sle = null;
 
     public PBScore() {
         initComponents();
-        sound = new soundModule();
+        sound = new PBSoundModule();
         ftg.setTimeZone(TimeZone.getTimeZone("UTC"));
-        ImageIcon imgicon = new ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"));
+        ImageIcon imgicon = new ImageIcon(getClass().getResource("/com/bug/resourse/images/big.png"));
+        Application.getApplication().setDockIconImage(imgicon.getImage());
         setIconImage(imgicon.getImage());
         jTable1.getModel().addTableModelListener(new TableModelListener() {
             @Override
@@ -117,7 +119,7 @@ public class PBScore extends javax.swing.JFrame {
                     jTextField11.setText(formatForDateNow.format(new Date(0)));
                     timeTimer.stop();
                     if (jCheckSound.isSelected()) {
-                        sound = new soundModule();
+                        sound = new PBSoundModule();
                         sound.setResourseName("start.wav");
                         sound.start();
                     }
@@ -218,28 +220,28 @@ public class PBScore extends javax.swing.JFrame {
                 String time = formatForDateNow.format(new Date(ftg.parse(jTextField11.getText()).getTime()));
                 if ("02:00".equals(time)) {
                     if (!flTimerLogic) {
-                        sound = new soundModule();
+                        sound = new PBSoundModule();
                         sound.setResourseName("2minut.wav");
                         sound.start();
                         flTimerLogic = true;
                     }
                 } else if ("01:00".equals(time)) {
                     if (!flTimerLogic) {
-                        sound = new soundModule();
+                        sound = new PBSoundModule();
                         sound.setResourseName("1minut.wav");
                         sound.start();
                         flTimerLogic = true;
                     }
                 } else if ("00:30".equals(time)) {
                     if (!flTimerLogic) {
-                        sound = new soundModule();
+                        sound = new PBSoundModule();
                         sound.setResourseName("30second.wav");
                         sound.start();
                         flTimerLogic = true;
                     }
                 } else if ("00:10".equals(time)) {
                     if (!flTimerLogic) {
-                        sound = new soundModule();
+                        sound = new PBSoundModule();
                         sound.setResourseName("10second.wav");
                         sound.start();
                         flTimerLogic = true;
@@ -263,7 +265,7 @@ public class PBScore extends javax.swing.JFrame {
                 String time = formatForDateNow.format(new Date(ftg.parse(jTextField10.getText()).getTime()));
                 if ("02:00".equals(time)) {
                     if (!flGameLogic) {
-                        sound = new soundModule();
+                        sound = new PBSoundModule();
                         sound.setResourseName("60second.wav");
                         sound.start();
                         flGameLogic = true;
@@ -560,7 +562,7 @@ public class PBScore extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PBScore");
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Play.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/Play.png"))); // NOI18N
         jButton2.setToolTipText("Старт");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -572,7 +574,7 @@ public class PBScore extends javax.swing.JFrame {
         jTextField6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField6.setText("Команда1");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Apps-clock-icon.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/Apps-clock-icon.png"))); // NOI18N
         jButton1.setToolTipText("Таймаут");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -637,7 +639,7 @@ public class PBScore extends javax.swing.JFrame {
         jTextField8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField8.setText("Команда2");
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Stopx.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/Stopx.png"))); // NOI18N
         jButton5.setToolTipText("Стоп");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -645,7 +647,7 @@ public class PBScore extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Apps-clock-icon.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/Apps-clock-icon.png"))); // NOI18N
         jButton6.setToolTipText("Таймаут");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -830,21 +832,21 @@ public class PBScore extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
         }
 
-        tableUP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/up.png"))); // NOI18N
+        tableUP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/up.png"))); // NOI18N
         tableUP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tableUPActionPerformed(evt);
             }
         });
 
-        tableRowSet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/settings.png"))); // NOI18N
+        tableRowSet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/settings.png"))); // NOI18N
         tableRowSet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tableRowSetActionPerformed(evt);
             }
         });
 
-        tableDOWN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Down.png"))); // NOI18N
+        tableDOWN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/Down.png"))); // NOI18N
         tableDOWN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tableDOWNActionPerformed(evt);
@@ -903,7 +905,7 @@ public class PBScore extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         jMenuOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Actions-document-open-icon.png"))); // NOI18N
+        jMenuOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/Actions-document-open-icon.png"))); // NOI18N
         jMenuOpen.setText("Load Schedule");
         jMenuOpen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -913,7 +915,7 @@ public class PBScore extends javax.swing.JFrame {
         jMenu1.add(jMenuOpen);
 
         jMenuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Usb-icon.png"))); // NOI18N
+        jMenuSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/Usb-icon.png"))); // NOI18N
         jMenuSave.setText("Save Schedule");
         jMenuSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -923,7 +925,7 @@ public class PBScore extends javax.swing.JFrame {
         jMenu1.add(jMenuSave);
 
         jMenuSaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMenuSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Usb-icon.png"))); // NOI18N
+        jMenuSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/Usb-icon.png"))); // NOI18N
         jMenuSaveAs.setText("Save Schedule As...");
         jMenuSaveAs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -933,7 +935,7 @@ public class PBScore extends javax.swing.JFrame {
         jMenu1.add(jMenuSaveAs);
 
         jMenuClear.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMenuClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/clear-icon.png"))); // NOI18N
+        jMenuClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/clear-icon.png"))); // NOI18N
         jMenuClear.setText("Clear Schedule");
         jMenuClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -944,7 +946,7 @@ public class PBScore extends javax.swing.JFrame {
         jMenu1.add(jSeparator2);
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Sign-Shutdown-icon.png"))); // NOI18N
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/Sign-Shutdown-icon.png"))); // NOI18N
         jMenuItem6.setText("Exit");
         jMenuItem6.setToolTipText("");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -959,7 +961,7 @@ public class PBScore extends javax.swing.JFrame {
         jMenu2.setText("Edit");
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/config.png"))); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/config.png"))); // NOI18N
         jMenuItem5.setText("Configure");
         jMenu2.add(jMenuItem5);
 
@@ -969,7 +971,7 @@ public class PBScore extends javax.swing.JFrame {
 
         jCheckViewBox.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
         jCheckViewBox.setText("ViewBOX");
-        jCheckViewBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/viewbox.png"))); // NOI18N
+        jCheckViewBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/viewbox.png"))); // NOI18N
         jCheckViewBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckViewBoxActionPerformed(evt);
@@ -980,7 +982,7 @@ public class PBScore extends javax.swing.JFrame {
         jCheckElTablo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
         jCheckElTablo.setText("ELTABLO");
         jCheckElTablo.setEnabled(false);
-        jCheckElTablo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/eltablo.png"))); // NOI18N
+        jCheckElTablo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/eltablo.png"))); // NOI18N
         jCheckElTablo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckElTabloActionPerformed(evt);
@@ -990,7 +992,7 @@ public class PBScore extends javax.swing.JFrame {
 
         jCheckSound.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
         jCheckSound.setText("Sound");
-        jCheckSound.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/PBLeftImage32.png"))); // NOI18N
+        jCheckSound.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/PBLeftImage32.png"))); // NOI18N
         jCheckSound.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckSoundActionPerformed(evt);
@@ -1000,7 +1002,7 @@ public class PBScore extends javax.swing.JFrame {
 
         jCheckScore.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.CTRL_MASK));
         jCheckScore.setText("AI ;)");
-        jCheckScore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"))); // NOI18N
+        jCheckScore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/ai.png"))); // NOI18N
         jCheckScore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckScoreActionPerformed(evt);
@@ -1010,7 +1012,7 @@ public class PBScore extends javax.swing.JFrame {
 
         jCheckStream.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_5, java.awt.event.InputEvent.CTRL_MASK));
         jCheckStream.setText("VidBlaster");
-        jCheckStream.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/VIDBLAST.png"))); // NOI18N
+        jCheckStream.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/VIDBLAST.png"))); // NOI18N
         jCheckStream.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckStreamActionPerformed(evt);
@@ -1149,7 +1151,7 @@ public class PBScore extends javax.swing.JFrame {
                 timeTimer.start();
             } else {
                 if (jCheckSound.isSelected()) {
-                    sound = new soundModule();
+                    sound = new PBSoundModule();
                     sound.setResourseName("start.wav");
                     sound.start();
                 }
@@ -1167,7 +1169,7 @@ public class PBScore extends javax.swing.JFrame {
 
     private void stopTimers() {
         if (jCheckSound.isSelected()) {
-            sound = new soundModule();
+            sound = new PBSoundModule();
             sound.setResourseName("stop.wav");
             sound.start();
         }
@@ -1357,7 +1359,7 @@ public class PBScore extends javax.swing.JFrame {
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = fileopen.getSelectedFile();
             try {
-                sle = new SaveLoadExcel(file);
+                sle = new PBSaveLoadExcel(file);
                 List<List<Object>> sleData = sle.getData();
                 int i = 0;
                 for (List<Object> row : sleData) {
@@ -1434,6 +1436,9 @@ public class PBScore extends javax.swing.JFrame {
         int ret = filesave.showSaveDialog(null);
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = filesave.getSelectedFile();
+            if(!file.exists()){
+                
+            }
         }
 
     }//GEN-LAST:event_jMenuSaveActionPerformed

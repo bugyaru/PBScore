@@ -9,7 +9,7 @@ package com.bug.pbcore;
  *
  * @author admin
  */
-public interface vBoxEventsListener {
-    public void viewBoxEvent(viewBoxEvents e);
-    public void viewBoxFieldEvent(String fieldName, viewBoxEvents e);
+public interface PBVBoxEventsListener {
+    public void viewBoxEvent(PBViewBoxEvents e);
+    public void viewBoxFieldEvent(String fieldName, PBViewBoxEvents e);
 }

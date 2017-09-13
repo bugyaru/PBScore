@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author bkantor
  */
-public class manualTimer extends javax.swing.JFrame {
+public class PBManualTimer extends javax.swing.JFrame {
 
     /**
      * "Team1Score" "Team2Score" "Team1Name" "Team2Name" "Team1timeout"
@@ -27,7 +27,7 @@ public class manualTimer extends javax.swing.JFrame {
     private String timeS;
     private long timeL; 
     private SimpleDateFormat ftg = new SimpleDateFormat("HH:mm:ss");
-    public manualTimer() {
+    public PBManualTimer() {
         ftg.setTimeZone(TimeZone.getTimeZone("UTC"));
         timeS="00:00:00";
         timeL=0;

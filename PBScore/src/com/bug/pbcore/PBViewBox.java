@@ -20,24 +20,24 @@ import javax.swing.ImageIcon;
  *
  * @author bkantor
  */
-public class viewBox extends javax.swing.JFrame {
+public class PBViewBox extends javax.swing.JFrame {
 
     /**
      * "Team1Score" "Team2Score" "Team1Name" "Team2Name" "Team1timeout"
-     * "Team2timeout" "GameTime" "TimerTime" "Team1ScoreS" "Team2ScoreS" 
-     * Creates
-     * new form viewBox
+ "Team2timeout" "GameTime" "TimerTime" "Team1ScoreS" "Team2ScoreS" 
+ Creates
+ new form PBViewBox
      */
-    viewBoxEvents viEvents = new viewBoxEvents(this);
+    PBViewBoxEvents viEvents = new PBViewBoxEvents(this);
     File f = new File("6809Chargen.ttf");
     Font Chargen;
 
-    public viewBox() {
+    public PBViewBox() {
         initComponents();
         customize();
-        viEvents.addVBoxEventsListener(new vBoxEventsListener() {
+        viEvents.addVBoxEventsListener(new PBVBoxEventsListener() {
             @Override
-            public void viewBoxEvent(viewBoxEvents e) {
+            public void viewBoxEvent(PBViewBoxEvents e) {
                 jTextField4.setText(e.data.get("Team1Name").toString());
                 jTextField6.setText(e.data.get("Team2Name").toString());
                 if ((Boolean) e.data.get("Team1timeout")) {
@@ -58,7 +58,7 @@ public class viewBox extends javax.swing.JFrame {
             }
 
             @Override
-            public void viewBoxFieldEvent(String fieldName, viewBoxEvents e) {
+            public void viewBoxFieldEvent(String fieldName, PBViewBoxEvents e) {
                 if("GameTime".equals(fieldName)){
                         jTextField1.setText(e.data.get(fieldName).toString());
                 }
@@ -401,7 +401,7 @@ public class viewBox extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     private void customize() {
-        ImageIcon imgicon = new ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"));
+        ImageIcon imgicon = new ImageIcon(getClass().getResource("/com/bug/resourse/images/ai.png"));
         setIconImage(imgicon.getImage());
         try {
             /* Set the Nimbus look and feel */
@@ -438,9 +438,9 @@ public class viewBox extends javax.swing.JFrame {
             jPanel3.setBackground(Color.BLACK);
             jPanel4.setBackground(Color.BLACK);
         } catch (FontFormatException ex) {
-            Logger.getLogger(viewBox.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PBViewBox.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(viewBox.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PBViewBox.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

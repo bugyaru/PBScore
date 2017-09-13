@@ -241,7 +241,7 @@
                   <KeyStroke key="Ctrl+O"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/Actions-document-open-icon.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/Actions-document-open-icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Load Schedule"/>
               </Properties>
@@ -255,7 +255,7 @@
                   <KeyStroke key="Ctrl+S"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/Usb-icon.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/Usb-icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save Schedule"/>
               </Properties>
@@ -269,7 +269,7 @@
                   <KeyStroke key="Shift+Ctrl+S"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/Usb-icon.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/Usb-icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save Schedule As..."/>
               </Properties>
@@ -283,7 +283,7 @@
                   <KeyStroke key="Ctrl+Alt+C"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/clear-icon.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/clear-icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Clear Schedule"/>
               </Properties>
@@ -299,7 +299,7 @@
                   <KeyStroke key="Ctrl+Q"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/Sign-Shutdown-icon.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/Sign-Shutdown-icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Exit"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -321,7 +321,7 @@
                   <KeyStroke key="Ctrl+E"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/config.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/config.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Configure"/>
               </Properties>
@@ -340,7 +340,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="ViewBOX"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/viewbox.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/viewbox.png"/>
                 </Property>
               </Properties>
               <Events>
@@ -355,7 +355,7 @@
                 <Property name="text" type="java.lang.String" value="ELTABLO"/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/eltablo.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/eltablo.png"/>
                 </Property>
               </Properties>
               <Events>
@@ -369,7 +369,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Sound"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/PBLeftImage32.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/PBLeftImage32.png"/>
                 </Property>
               </Properties>
               <Events>
@@ -383,7 +383,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="AI ;)"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/ai.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/ai.png"/>
                 </Property>
               </Properties>
               <Events>
@@ -397,7 +397,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="VidBlaster"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/VIDBLAST.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/VIDBLAST.png"/>
                 </Property>
               </Properties>
               <Events>
@@ -587,7 +587,7 @@
                     <Component class="javax.swing.JButton" name="jButton2">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/com/bug/resourse/Play.png"/>
+                          <Image iconType="3" name="/com/bug/resourse/images/Play.png"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value="&#x421;&#x442;&#x430;&#x440;&#x442;"/>
                       </Properties>
@@ -607,7 +607,7 @@
                     <Component class="javax.swing.JButton" name="jButton1">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/com/bug/resourse/Apps-clock-icon.png"/>
+                          <Image iconType="3" name="/com/bug/resourse/images/Apps-clock-icon.png"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value="&#x422;&#x430;&#x439;&#x43c;&#x430;&#x443;&#x442;"/>
                       </Properties>
@@ -704,7 +704,7 @@
                     <Component class="javax.swing.JButton" name="jButton5">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/com/bug/resourse/Stopx.png"/>
+                          <Image iconType="3" name="/com/bug/resourse/images/Stopx.png"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value="&#x421;&#x442;&#x43e;&#x43f;"/>
                       </Properties>
@@ -715,7 +715,7 @@
                     <Component class="javax.swing.JButton" name="jButton6">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/com/bug/resourse/Apps-clock-icon.png"/>
+                          <Image iconType="3" name="/com/bug/resourse/images/Apps-clock-icon.png"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value="&#x422;&#x430;&#x439;&#x43c;&#x430;&#x443;&#x442;"/>
                       </Properties>
@@ -936,7 +936,7 @@
             <Component class="javax.swing.JButton" name="tableUP">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/up.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/up.png"/>
                 </Property>
               </Properties>
               <Events>
@@ -946,7 +946,7 @@
             <Component class="javax.swing.JButton" name="tableRowSet">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/settings.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/settings.png"/>
                 </Property>
               </Properties>
               <Events>
@@ -956,7 +956,7 @@
             <Component class="javax.swing.JButton" name="tableDOWN">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/Down.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/images/Down.png"/>
                 </Property>
               </Properties>
               <Events>

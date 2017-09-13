@@ -16,24 +16,24 @@ import java.util.Map;
  */
 
 
-public class viewBoxEvents extends EventObject {
+public class PBViewBoxEvents extends EventObject {
 
     public Map<String, Object> data = new HashMap<String, Object>();
     private String fieldName;
-    private ArrayList<vBoxEventsListener> listeners = new ArrayList<vBoxEventsListener>();
+    private ArrayList<PBVBoxEventsListener> listeners = new ArrayList<PBVBoxEventsListener>();
 
 
-    public viewBoxEvents(Object source, String fieldName, Map data) {
+    public PBViewBoxEvents(Object source, String fieldName, Map data) {
         super(source);
         this.data = data;
         this.fieldName=fieldName;
     }
 
-    public viewBoxEvents(Object source) {
+    public PBViewBoxEvents(Object source) {
         this(source, null, null);
     }
 
-    public viewBoxEvents(Map s) {
+    public PBViewBoxEvents(Map s) {
         this(null, null, s);
     }
 
@@ -42,7 +42,7 @@ public class viewBoxEvents extends EventObject {
      * @param fieldName
      * @param s
      */
-    public viewBoxEvents(String fieldName, Map s) {
+    public PBViewBoxEvents(String fieldName, Map s) {
         this(null, fieldName,s);
     }
 
@@ -57,28 +57,28 @@ public class viewBoxEvents extends EventObject {
     public String toString() {
         return getClass().getName() + "[source = " + getSource() + ", message = " + data.toString() + "]";
     }
-        public void addVBoxEventsListener(vBoxEventsListener listener) {
+        public void addVBoxEventsListener(PBVBoxEventsListener listener) {
         listeners.add(listener);
     }
 
-    public vBoxEventsListener[] getVBoxEventsListeners() {
-        return listeners.toArray(new vBoxEventsListener[listeners.size()]);
+    public PBVBoxEventsListener[] getVBoxEventsListeners() {
+        return listeners.toArray(new PBVBoxEventsListener[listeners.size()]);
     }
 
-    public void removeVBoxEventsListener(vBoxEventsListener listener) {
+    public void removeVBoxEventsListener(PBVBoxEventsListener listener) {
         listeners.remove(listener);
     }
 
     protected void fireVBoxEvents(Map data) {
-        viewBoxEvents ev = new viewBoxEvents(this, "", data);
-        for (vBoxEventsListener listener : listeners) {
+        PBViewBoxEvents ev = new PBViewBoxEvents(this, "", data);
+        for (PBVBoxEventsListener listener : listeners) {
             listener.viewBoxEvent(ev);
         }
     }
 
     protected void fireVBoxEventField(String fieldName, Map data) {
-        viewBoxEvents ev = new viewBoxEvents(this, fieldName, data);
-        for (vBoxEventsListener listener : listeners) {
+        PBViewBoxEvents ev = new PBViewBoxEvents(this, fieldName, data);
+        for (PBVBoxEventsListener listener : listeners) {
             listener.viewBoxFieldEvent(fieldName, ev);
         }
     }
