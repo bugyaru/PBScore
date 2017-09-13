@@ -9,21 +9,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 /**
  *
@@ -44,11 +50,12 @@ public class PBScore extends javax.swing.JFrame {
     Timer gameTimer, timeTimer;
     String gameTime = "10:00";
     String timerTime = "00:00";
-    String format = "HH:mm:ss.SSS";
+    String format = "HH:mm:ss";
     SimpleDateFormat ftg = new SimpleDateFormat(format);
     Boolean flTimerLogic = false, flGameLogic = false;
     long gameTimeC, timerTimeC;
     soundModule sound;
+    SaveLoadExcel sle = null;
 
     public PBScore() {
         initComponents();
@@ -110,7 +117,7 @@ public class PBScore extends javax.swing.JFrame {
                     jTextField11.setText(formatForDateNow.format(new Date(0)));
                     timeTimer.stop();
                     if (jCheckSound.isSelected()) {
-                        sound=new soundModule();
+                        sound = new soundModule();
                         sound.setResourseName("start.wav");
                         sound.start();
                     }
@@ -122,9 +129,13 @@ public class PBScore extends javax.swing.JFrame {
         jPanel6.setComponentPopupMenu(jPopupMenu1);
         jTextField10.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void changedUpdate(DocumentEvent e) {}
+            public void changedUpdate(DocumentEvent e) {
+            }
+
             @Override
-            public void removeUpdate(DocumentEvent e) {}
+            public void removeUpdate(DocumentEvent e) {
+            }
+
             @Override
             public void insertUpdate(DocumentEvent e) {
                 data.put("GameTime", jTextField10.getText());
@@ -133,9 +144,13 @@ public class PBScore extends javax.swing.JFrame {
         });
         jTextField11.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void changedUpdate(DocumentEvent e) {}
+            public void changedUpdate(DocumentEvent e) {
+            }
+
             @Override
-            public void removeUpdate(DocumentEvent e) {}
+            public void removeUpdate(DocumentEvent e) {
+            }
+
             @Override
             public void insertUpdate(DocumentEvent e) {
                 data.put("TimerTime", jTextField11.getText());
@@ -144,35 +159,51 @@ public class PBScore extends javax.swing.JFrame {
         });
         mGameBox.addComponentListener(new ComponentListener() {
             @Override
-            public void componentResized(ComponentEvent ce) {}
+            public void componentResized(ComponentEvent ce) {
+            }
+
             @Override
-            public void componentMoved(ComponentEvent ce) {}
+            public void componentMoved(ComponentEvent ce) {
+            }
+
             @Override
-            public void componentShown(ComponentEvent ce) {}
+            public void componentShown(ComponentEvent ce) {
+            }
+
             @Override
             public void componentHidden(ComponentEvent ce) {
-                gameTime=timer2string(mGameBox.getTimeLong());
+                gameTime = timer2string(mGameBox.getTimeLong());
                 SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
                 formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
                 jTextField10.setText(formatForDateNow.format(new Date(mGameBox.getTimeLong())));
-                if(gameTimer.isRunning()) startTimers();
+                if (gameTimer.isRunning()) {
+                    startTimers();
+                }
             }
         });
         mTimerBox.addComponentListener(new ComponentListener() {
             @Override
-            public void componentResized(ComponentEvent ce) {}
+            public void componentResized(ComponentEvent ce) {
+            }
+
             @Override
-            public void componentMoved(ComponentEvent ce) {}
+            public void componentMoved(ComponentEvent ce) {
+            }
+
             @Override
-            public void componentShown(ComponentEvent ce) {}
+            public void componentShown(ComponentEvent ce) {
+            }
+
             @Override
             public void componentHidden(ComponentEvent ce) {
-                timerTimeC=mTimerBox.getTimeLong();
-                timerTime=timer2string(timerTimeC);
+                timerTimeC = mTimerBox.getTimeLong();
+                timerTime = timer2string(timerTimeC);
                 SimpleDateFormat formatForDateNow = new SimpleDateFormat(format);
                 formatForDateNow.setTimeZone(TimeZone.getTimeZone("UTC"));
                 jTextField11.setText(formatForDateNow.format(new Date(timerTimeC)));
-                if(timeTimer.isRunning()) startTimers();
+                if (timeTimer.isRunning()) {
+                    startTimers();
+                }
             }
         });
         //test block
@@ -187,28 +218,28 @@ public class PBScore extends javax.swing.JFrame {
                 String time = formatForDateNow.format(new Date(ftg.parse(jTextField11.getText()).getTime()));
                 if ("02:00".equals(time)) {
                     if (!flTimerLogic) {
-                        sound=new soundModule();
+                        sound = new soundModule();
                         sound.setResourseName("2minut.wav");
                         sound.start();
                         flTimerLogic = true;
                     }
                 } else if ("01:00".equals(time)) {
                     if (!flTimerLogic) {
-                        sound=new soundModule();
+                        sound = new soundModule();
                         sound.setResourseName("1minut.wav");
                         sound.start();
                         flTimerLogic = true;
                     }
                 } else if ("00:30".equals(time)) {
                     if (!flTimerLogic) {
-                        sound=new soundModule();
+                        sound = new soundModule();
                         sound.setResourseName("30second.wav");
                         sound.start();
                         flTimerLogic = true;
                     }
                 } else if ("00:10".equals(time)) {
                     if (!flTimerLogic) {
-                        sound=new soundModule();
+                        sound = new soundModule();
                         sound.setResourseName("10second.wav");
                         sound.start();
                         flTimerLogic = true;
@@ -232,7 +263,7 @@ public class PBScore extends javax.swing.JFrame {
                 String time = formatForDateNow.format(new Date(ftg.parse(jTextField10.getText()).getTime()));
                 if ("02:00".equals(time)) {
                     if (!flGameLogic) {
-                        sound=new soundModule();
+                        sound = new soundModule();
                         sound.setResourseName("60second.wav");
                         sound.start();
                         flGameLogic = true;
@@ -315,9 +346,9 @@ public class PBScore extends javax.swing.JFrame {
         jButton10 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
+        tableUP = new javax.swing.JButton();
+        tableRowSet = new javax.swing.JButton();
+        tableDOWN = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
@@ -326,9 +357,10 @@ public class PBScore extends javax.swing.JFrame {
         jTextField5 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuOpen = new javax.swing.JMenuItem();
+        jMenuSave = new javax.swing.JMenuItem();
+        jMenuSaveAs = new javax.swing.JMenuItem();
+        jMenuClear = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -504,6 +536,7 @@ public class PBScore extends javax.swing.JFrame {
         jMenu6.add(jRadioButtonMenuItem8);
 
         buttonGroup2.add(jRadioButtonMenuItem9);
+        jRadioButtonMenuItem9.setSelected(true);
         jRadioButtonMenuItem9.setText("hh:mm:ss");
         jRadioButtonMenuItem9.setToolTipText("");
         jRadioButtonMenuItem9.addActionListener(new java.awt.event.ActionListener() {
@@ -514,7 +547,6 @@ public class PBScore extends javax.swing.JFrame {
         jMenu6.add(jRadioButtonMenuItem9);
 
         buttonGroup2.add(jRadioButtonMenuItem10);
-        jRadioButtonMenuItem10.setSelected(true);
         jRadioButtonMenuItem10.setText("hh:mm:ss.ms");
         jRadioButtonMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -528,8 +560,7 @@ public class PBScore extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PBScore");
 
-        jButton2.setBackground(new java.awt.Color(153, 255, 102));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/start.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Play.png"))); // NOI18N
         jButton2.setToolTipText("Старт");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -541,8 +572,7 @@ public class PBScore extends javax.swing.JFrame {
         jTextField6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField6.setText("Команда1");
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 102));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ico_alpha_TaskScheduling_32x32.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Apps-clock-icon.png"))); // NOI18N
         jButton1.setToolTipText("Таймаут");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -607,8 +637,7 @@ public class PBScore extends javax.swing.JFrame {
         jTextField8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField8.setText("Команда2");
 
-        jButton5.setBackground(new java.awt.Color(255, 51, 51));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/stop.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Stopx.png"))); // NOI18N
         jButton5.setToolTipText("Стоп");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -616,8 +645,7 @@ public class PBScore extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setBackground(new java.awt.Color(255, 255, 102));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ico_alpha_TaskScheduling_32x32.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Apps-clock-icon.png"))); // NOI18N
         jButton6.setToolTipText("Таймаут");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -678,17 +706,19 @@ public class PBScore extends javax.swing.JFrame {
                             .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
 
+        jTextField10.setEditable(false);
         jTextField10.setBackground(new java.awt.Color(204, 255, 255));
         jTextField10.setFont(new java.awt.Font("Courier New", 1, 36)); // NOI18N
         jTextField10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField10.setText("00:10:00.00");
+        jTextField10.setText("00:00:00");
         jTextField10.setToolTipText("");
         jTextField10.setComponentPopupMenu(jPopupMenu1);
 
+        jTextField11.setEditable(false);
         jTextField11.setBackground(new java.awt.Color(204, 255, 204));
         jTextField11.setFont(new java.awt.Font("Courier New", 1, 36)); // NOI18N
         jTextField11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField11.setText("00:00:00.00");
+        jTextField11.setText("00:00:00");
         jTextField11.setComponentPopupMenu(jPopupMenu1);
 
         jButton9.setBackground(new java.awt.Color(204, 255, 255));
@@ -800,24 +830,24 @@ public class PBScore extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
         }
 
-        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/upbutton.png"))); // NOI18N
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        tableUP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/up.png"))); // NOI18N
+        tableUP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                tableUPActionPerformed(evt);
             }
         });
 
-        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ok32.png"))); // NOI18N
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
+        tableRowSet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/settings.png"))); // NOI18N
+        tableRowSet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
+                tableRowSetActionPerformed(evt);
             }
         });
 
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/downbutton.png"))); // NOI18N
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
+        tableDOWN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Down.png"))); // NOI18N
+        tableDOWN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
+                tableDOWNActionPerformed(evt);
             }
         });
 
@@ -830,10 +860,10 @@ public class PBScore extends javax.swing.JFrame {
                 .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tableDOWN, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(tableUP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tableRowSet, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -843,11 +873,11 @@ public class PBScore extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tableUP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tableRowSet, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(tableDOWN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jTabbedPane1.addTab("Page 1", jPanel1);
@@ -872,24 +902,49 @@ public class PBScore extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/web32.png"))); // NOI18N
-        jMenuItem2.setText("Load Schedule");
-        jMenu1.add(jMenuItem2);
+        jMenuOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Actions-document-open-icon.png"))); // NOI18N
+        jMenuOpen.setText("Load Schedule");
+        jMenuOpen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuOpenActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuOpen);
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/file32.png"))); // NOI18N
-        jMenuItem3.setText("Save Schedule");
-        jMenu1.add(jMenuItem3);
+        jMenuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Usb-icon.png"))); // NOI18N
+        jMenuSave.setText("Save Schedule");
+        jMenuSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSaveActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuSave);
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/file32.png"))); // NOI18N
-        jMenuItem4.setText("Save Schedule As...");
-        jMenu1.add(jMenuItem4);
+        jMenuSaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Usb-icon.png"))); // NOI18N
+        jMenuSaveAs.setText("Save Schedule As...");
+        jMenuSaveAs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSaveAsActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuSaveAs);
+
+        jMenuClear.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/clear-icon.png"))); // NOI18N
+        jMenuClear.setText("Clear Schedule");
+        jMenuClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuClearActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuClear);
         jMenu1.add(jSeparator2);
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/exit.png"))); // NOI18N
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/Sign-Shutdown-icon.png"))); // NOI18N
         jMenuItem6.setText("Exit");
         jMenuItem6.setToolTipText("");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -904,7 +959,7 @@ public class PBScore extends javax.swing.JFrame {
         jMenu2.setText("Edit");
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/pdm32.png"))); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/config.png"))); // NOI18N
         jMenuItem5.setText("Configure");
         jMenu2.add(jMenuItem5);
 
@@ -926,21 +981,41 @@ public class PBScore extends javax.swing.JFrame {
         jCheckElTablo.setText("ELTABLO");
         jCheckElTablo.setEnabled(false);
         jCheckElTablo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/eltablo.png"))); // NOI18N
+        jCheckElTablo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckElTabloActionPerformed(evt);
+            }
+        });
         jMenu4.add(jCheckElTablo);
 
         jCheckSound.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
         jCheckSound.setText("Sound");
         jCheckSound.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/PBLeftImage32.png"))); // NOI18N
+        jCheckSound.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckSoundActionPerformed(evt);
+            }
+        });
         jMenu4.add(jCheckSound);
 
         jCheckScore.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.CTRL_MASK));
         jCheckScore.setText("AI ;)");
         jCheckScore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/ai.png"))); // NOI18N
+        jCheckScore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckScoreActionPerformed(evt);
+            }
+        });
         jMenu4.add(jCheckScore);
 
         jCheckStream.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_5, java.awt.event.InputEvent.CTRL_MASK));
         jCheckStream.setText("VidBlaster");
         jCheckStream.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/VIDBLAST.png"))); // NOI18N
+        jCheckStream.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckStreamActionPerformed(evt);
+            }
+        });
         jMenu4.add(jCheckStream);
 
         jMenuBar1.add(jMenu4);
@@ -980,12 +1055,14 @@ public class PBScore extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+    private void tableRowSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableRowSetActionPerformed
         saveScoreRow(currentSelectionRow);
         prevSelectionRow = currentSelectionRow;
         currentSelectionRow = jTable1.getSelectedRow();
-        loadScoreRow(currentSelectionRow);
-    }//GEN-LAST:event_jButton12ActionPerformed
+        if (currentSelectionRow != jTable1.getRowCount() - 1) {
+            loadScoreRow(currentSelectionRow);
+        }
+    }//GEN-LAST:event_tableRowSetActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         jTextField7.setText(String.format("%02d", Integer.parseInt(jTextField7.getText()) + 1));
@@ -996,26 +1073,27 @@ public class PBScore extends javax.swing.JFrame {
         model.addRow(new Object[]{null, null, null, null, null, null, null, null, null, null});
     }//GEN-LAST:event_jTable1InputMethodTextChanged
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+    private void tableUPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableUPActionPerformed
         saveScoreRow(currentSelectionRow);
         if (jTable1.getSelectedRow() > 0) {
             prevSelectionRow = currentSelectionRow;
             currentSelectionRow--;
-            loadScoreRow(currentSelectionRow);
             jTable1.setRowSelectionInterval(currentSelectionRow, currentSelectionRow);
+            loadScoreRow(currentSelectionRow);
         }
-        loadScoreRow(currentSelectionRow);
-    }//GEN-LAST:event_jButton11ActionPerformed
+    }//GEN-LAST:event_tableUPActionPerformed
 
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+    private void tableDOWNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableDOWNActionPerformed
         saveScoreRow(currentSelectionRow);
         if (jTable1.getSelectedRow() != -1 && jTable1.getSelectedRow() + 1 < jTable1.getRowCount()) {
             prevSelectionRow = currentSelectionRow;
             currentSelectionRow++;
             jTable1.setRowSelectionInterval(currentSelectionRow, currentSelectionRow);
         }
-        loadScoreRow(currentSelectionRow);
-    }//GEN-LAST:event_jButton13ActionPerformed
+        if (currentSelectionRow != jTable1.getRowCount() - 1) {
+            loadScoreRow(currentSelectionRow);
+        }
+    }//GEN-LAST:event_tableDOWNActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (Integer.parseInt(jTextField7.getText()) > 0) {
@@ -1056,6 +1134,7 @@ public class PBScore extends javax.swing.JFrame {
         }
         return parsingDate.getTime();
     }
+
     private String timer2string(long date) {
         Date parsingDate = new Date(date);
         SimpleDateFormat ft = new SimpleDateFormat("mm:ss");
@@ -1070,13 +1149,17 @@ public class PBScore extends javax.swing.JFrame {
                 timeTimer.start();
             } else {
                 if (jCheckSound.isSelected()) {
-                    sound=new soundModule();
+                    sound = new soundModule();
                     sound.setResourseName("start.wav");
                     sound.start();
                 }
                 gameTimeC = System.currentTimeMillis();
                 gameTimer.start();
             }
+            tableUP.setEnabled(false);
+            tableRowSet.setEnabled(false);
+            tableDOWN.setEnabled(false);
+
         } catch (ParseException e) {
             Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -1084,10 +1167,13 @@ public class PBScore extends javax.swing.JFrame {
 
     private void stopTimers() {
         if (jCheckSound.isSelected()) {
-            sound=new soundModule();
+            sound = new soundModule();
             sound.setResourseName("stop.wav");
             sound.start();
         }
+        tableUP.setEnabled(true);
+        tableRowSet.setEnabled(true);
+        tableDOWN.setEnabled(true);
         try {
             if (ftg.parse(jTextField11.getText()).getTime() > 0) {
                 timeTimer.stop();
@@ -1262,16 +1348,162 @@ public class PBScore extends javax.swing.JFrame {
         addTimerTime(timer2long("02:00"));
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
+    private void jMenuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuOpenActionPerformed
+        JFileChooser fileopen = new JFileChooser();
+        fileopen.setAcceptAllFileFilterUsed(false);
+        fileopen.addChoosableFileFilter(new FileNameExtensionFilter("Excell old file format", "xls"));
+        fileopen.addChoosableFileFilter(new FileNameExtensionFilter("Excell file format", "xlsx"));
+        int ret = fileopen.showDialog(null, "Открыть файл");
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            File file = fileopen.getSelectedFile();
+            try {
+                sle = new SaveLoadExcel(file);
+                List<List<Object>> sleData = sle.getData();
+                int i = 0;
+                for (List<Object> row : sleData) {
+                    int j = 1;
+                    for (Object cell : row) {
+                        switch (j) {
+                            case 1:
+                                jTable1.setValueAt(date2string(cell, "date"), i, j);
+                                break;
+                            case 2:
+                                jTable1.setValueAt(date2string(cell, "time"), i, j);
+                                break;
+                            case 3:
+                                jTable1.setValueAt(data2bool(cell), i, j);
+                                break;
+                            case 8:
+                                jTable1.setValueAt(data2bool(cell), i, j);
+                                break;
+                            default:
+                                jTable1.setValueAt(cell, i, j);
+                                break;
+                        }
+                        j++;
+                    }
+                    i++;
+                }
+                loadScoreRow(0);
+            } catch (IOException ex) {
+                Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InvalidFormatException ex) {
+                Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //System.out.println(sle.getSheetName());
+
+        }
+    }//GEN-LAST:event_jMenuOpenActionPerformed
+
+    private void jCheckElTabloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckElTabloActionPerformed
+        if (jCheckElTablo.isSelected()) {
+            jTextField2.setText("ElTablo Open");
+        } else {
+            jTextField2.setText("ElTablo Close");
+        }
+    }//GEN-LAST:event_jCheckElTabloActionPerformed
+
+    private void jCheckSoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckSoundActionPerformed
+        if (jCheckSound.isSelected()) {
+            jTextField3.setText("Sound Open");
+        } else {
+            jTextField3.setText("Sound Close");
+        }
+    }//GEN-LAST:event_jCheckSoundActionPerformed
+
+    private void jCheckScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckScoreActionPerformed
+        if (jCheckScore.isSelected()) {
+            jTextField4.setText("Score Open");
+        } else {
+            jTextField4.setText("Score Close");
+        }
+    }//GEN-LAST:event_jCheckScoreActionPerformed
+
+    private void jCheckStreamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckStreamActionPerformed
+        if (jCheckStream.isSelected()) {
+            jTextField5.setText("VidBlaster Open");
+        } else {
+            jTextField5.setText("VidBlaster Close");
+        }
+    }//GEN-LAST:event_jCheckStreamActionPerformed
+
+    private void jMenuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSaveActionPerformed
+        JFileChooser filesave = new JFileChooser();
+        filesave.setAcceptAllFileFilterUsed(false);
+        filesave.addChoosableFileFilter(new FileNameExtensionFilter("Excell file format", "xlsx"));
+        int ret = filesave.showSaveDialog(null);
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            File file = filesave.getSelectedFile();
+        }
+
+    }//GEN-LAST:event_jMenuSaveActionPerformed
+
+    private void jMenuClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClearActionPerformed
+
+        for (int i = jTable1.getRowCount() - 2; i > -1; i--) {
+            ((DefaultTableModel) jTable1.getModel()).removeRow(i);
+        }
+        index = 0;
+        jTable1.setValueAt(0, 0, 0);
+    }//GEN-LAST:event_jMenuClearActionPerformed
+
+    private void jMenuSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSaveAsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuSaveAsActionPerformed
+
+    private Boolean data2bool(Object o) {
+        Boolean out = true;
+        String[] split = o.getClass().getCanonicalName().split("\\.");
+        if (split[split.length - 1].equals("String")) {
+            if (o.equals("false") || o.equals("")) {
+                out = false;
+            }
+        }
+        if (split[split.length - 1].equals("Integer")) {
+            if (o.equals(0)) {
+                out = false;
+            }
+        }
+        return out;
+    }
+
+    private String date2string(Object o, String type) {
+        Date d = new Date();
+        SimpleDateFormat formatForDateNow;
+        if (type.equals("time")) {
+            formatForDateNow = new SimpleDateFormat("mm:ss");
+        } else {
+            formatForDateNow = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        }
+        String[] split = o.getClass().getCanonicalName().split("\\.");
+        System.out.println(split[split.length - 1]);
+        if (split[split.length - 1].equals("Date")) {
+            return formatForDateNow.format(o);
+        } else {
+            return formatForDateNow.format(d);
+        }
+    }
+
     private void loadScoreRow(Integer rowIndex) {
-        jTextField6.setText(jTable1.getValueAt(rowIndex, 4).toString());
-        jTextField7.setText(String.format("%02d", Integer.parseInt(jTable1.getValueAt(rowIndex, 5).toString())));
-        jTextField8.setText(jTable1.getValueAt(rowIndex, 7).toString());
-        jTextField9.setText(String.format("%02d", Integer.parseInt(jTable1.getValueAt(rowIndex, 6).toString())));
-        jTextField10.setText(jTable1.getValueAt(rowIndex, 2).toString());
-        //timeout button
-        jButton1.setEnabled(!(Boolean) jTable1.getValueAt(rowIndex, 3));
-        jButton6.setEnabled(!(Boolean) jTable1.getValueAt(rowIndex, 8));
-        vBoxUpdate();
+        if (rowIndex < jTable1.getRowCount()) {
+            jTextField6.setText(jTable1.getValueAt(rowIndex, 4).toString());
+            if (!jTable1.getValueAt(rowIndex, 5).toString().equals("")) {
+                jTextField7.setText(String.format("%02d", Integer.parseInt(jTable1.getValueAt(rowIndex, 5).toString())));
+            } else {
+                jTextField7.setText("");
+            }
+            jTextField8.setText(jTable1.getValueAt(rowIndex, 7).toString());
+            if (!jTable1.getValueAt(rowIndex, 6).toString().equals("")) {
+                jTextField9.setText(String.format("%02d", Integer.parseInt(jTable1.getValueAt(rowIndex, 6).toString())));
+            } else {
+                jTextField9.setText("");
+            }
+            jTextField10.setText(jTable1.getValueAt(rowIndex, 2).toString());
+            //timeout button
+            jButton1.setEnabled(!(Boolean) jTable1.getValueAt(rowIndex, 3));
+            jButton6.setEnabled(!(Boolean) jTable1.getValueAt(rowIndex, 8));
+            vBoxUpdate();
+        }
     }
 
     private void vBoxUpdate() {
@@ -1374,9 +1606,6 @@ public class PBScore extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1399,6 +1628,7 @@ public class PBScore extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuClear;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
@@ -1406,14 +1636,14 @@ public class PBScore extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JMenuItem jMenuOpen;
+    private javax.swing.JMenuItem jMenuSave;
+    private javax.swing.JMenuItem jMenuSaveAs;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
@@ -1445,6 +1675,9 @@ public class PBScore extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JButton tableDOWN;
+    private javax.swing.JButton tableRowSet;
+    private javax.swing.JButton tableUP;
     // End of variables declaration//GEN-END:variables
 
 }

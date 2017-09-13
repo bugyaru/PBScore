@@ -201,6 +201,7 @@
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup2"/>
                 </Property>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="hh:mm:ss"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
@@ -213,7 +214,6 @@
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroup2"/>
                 </Property>
-                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="hh:mm:ss.ms"/>
               </Properties>
               <Events>
@@ -235,38 +235,61 @@
             <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuOpen">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+O"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/web32.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/Actions-document-open-icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Load Schedule"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuOpenActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuSave">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+S"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/file32.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/Usb-icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save Schedule"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuSaveActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuSaveAs">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+S"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/file32.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/Usb-icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save Schedule As..."/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuSaveAsActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuClear">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+Alt+C"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/bug/resourse/clear-icon.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Clear Schedule"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuClearActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
             </MenuItem>
@@ -276,7 +299,7 @@
                   <KeyStroke key="Ctrl+Q"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/exit.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/Sign-Shutdown-icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Exit"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -298,7 +321,7 @@
                   <KeyStroke key="Ctrl+E"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/pdm32.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/config.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Configure"/>
               </Properties>
@@ -335,6 +358,9 @@
                   <Image iconType="3" name="/com/bug/resourse/eltablo.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckElTabloActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckSound">
               <Properties>
@@ -346,6 +372,9 @@
                   <Image iconType="3" name="/com/bug/resourse/PBLeftImage32.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckSoundActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckScore">
               <Properties>
@@ -357,6 +386,9 @@
                   <Image iconType="3" name="/com/bug/resourse/ai.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckScoreActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckStream">
               <Properties>
@@ -368,6 +400,9 @@
                   <Image iconType="3" name="/com/bug/resourse/VIDBLAST.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckStreamActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -434,10 +469,10 @@
                       <Component id="jScrollPane1" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton13" min="-2" pref="80" max="-2" attributes="0"/>
+                          <Component id="tableDOWN" min="-2" pref="80" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jButton11" alignment="1" min="-2" pref="80" max="-2" attributes="0"/>
-                              <Component id="jButton12" alignment="1" min="-2" pref="80" max="-2" attributes="0"/>
+                              <Component id="tableUP" alignment="1" min="-2" pref="80" max="-2" attributes="0"/>
+                              <Component id="tableRowSet" alignment="1" min="-2" pref="80" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -451,11 +486,11 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="jButton11" max="32767" attributes="0"/>
+                              <Component id="tableUP" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton12" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="tableRowSet" min="-2" pref="40" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton13" max="32767" attributes="0"/>
+                              <Component id="tableDOWN" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -551,11 +586,8 @@
                   <SubComponents>
                     <Component class="javax.swing.JButton" name="jButton2">
                       <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="66" green="ff" red="99" type="rgb"/>
-                        </Property>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/com/bug/resourse/start.png"/>
+                          <Image iconType="3" name="/com/bug/resourse/Play.png"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value="&#x421;&#x442;&#x430;&#x440;&#x442;"/>
                       </Properties>
@@ -574,11 +606,8 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton1">
                       <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="66" green="ff" red="ff" type="rgb"/>
-                        </Property>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/com/bug/resourse/ico_alpha_TaskScheduling_32x32.png"/>
+                          <Image iconType="3" name="/com/bug/resourse/Apps-clock-icon.png"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value="&#x422;&#x430;&#x439;&#x43c;&#x430;&#x443;&#x442;"/>
                       </Properties>
@@ -674,11 +703,8 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton5">
                       <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="33" green="33" red="ff" type="rgb"/>
-                        </Property>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/com/bug/resourse/stop.png"/>
+                          <Image iconType="3" name="/com/bug/resourse/Stopx.png"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value="&#x421;&#x442;&#x43e;&#x43f;"/>
                       </Properties>
@@ -688,11 +714,8 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton6">
                       <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="66" green="ff" red="ff" type="rgb"/>
-                        </Property>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/com/bug/resourse/ico_alpha_TaskScheduling_32x32.png"/>
+                          <Image iconType="3" name="/com/bug/resourse/Apps-clock-icon.png"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value="&#x422;&#x430;&#x439;&#x43c;&#x430;&#x443;&#x442;"/>
                       </Properties>
@@ -735,6 +758,7 @@
                 </Container>
                 <Component class="javax.swing.JTextField" name="jTextField10">
                   <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="cc" type="rgb"/>
                     </Property>
@@ -742,7 +766,7 @@
                       <Font name="Courier New" size="36" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="00:10:00.00"/>
+                    <Property name="text" type="java.lang.String" value="00:00:00"/>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                     <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="jPopupMenu1"/>
@@ -751,6 +775,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextField11">
                   <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="cc" green="ff" red="cc" type="rgb"/>
                     </Property>
@@ -758,7 +783,7 @@
                       <Font name="Courier New" size="36" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="00:00:00.00"/>
+                    <Property name="text" type="java.lang.String" value="00:00:00"/>
                     <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="jPopupMenu1"/>
                     </Property>
@@ -908,34 +933,34 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="jButton11">
+            <Component class="javax.swing.JButton" name="tableUP">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/upbutton.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/up.png"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton11ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tableUPActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton12">
+            <Component class="javax.swing.JButton" name="tableRowSet">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/ok32.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/settings.png"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton12ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tableRowSetActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton13">
+            <Component class="javax.swing.JButton" name="tableDOWN">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/bug/resourse/downbutton.png"/>
+                  <Image iconType="3" name="/com/bug/resourse/Down.png"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton13ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tableDOWNActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

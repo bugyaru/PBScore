@@ -121,7 +121,6 @@ public class viewBox extends javax.swing.JFrame {
         jTextField5 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ViewBOX");
         setAlwaysOnTop(true);
         setIconImages(null);
