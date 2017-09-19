@@ -6,6 +6,7 @@
 package com.bug.pbcore;
 
 import com.apple.eawt.Application;
+import com.bug.vidblaster.api.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -48,6 +49,7 @@ public class PBScore extends javax.swing.JFrame {
     PBViewBox frame = new PBViewBox();
     PBManualTimer mTimerBox = new PBManualTimer();
     PBManualTimer mGameBox = new PBManualTimer();
+    PBConfigFrame cForm = new PBConfigFrame();
     Timer gameTimer, timeTimer;
     String gameTime = "10:00";
     String timerTime = "00:00";
@@ -57,6 +59,7 @@ public class PBScore extends javax.swing.JFrame {
     long gameTimeC, timerTimeC;
     PBSoundModule sound;
     PBSaveLoadExcel sle = null;
+    Vidblaster vb;
 
     public PBScore() {
         initComponents();
@@ -209,7 +212,6 @@ public class PBScore extends javax.swing.JFrame {
             }
         });
         //test block
-        System.out.println(new Date(timer2long("01:00") + timer2long("01:00")));
     }
 
     private void timerTimeAudioLogic() {
@@ -963,6 +965,11 @@ public class PBScore extends javax.swing.JFrame {
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bug/resourse/images/config.png"))); // NOI18N
         jMenuItem5.setText("Configure");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem5);
 
         jMenuBar1.add(jMenu2);
@@ -1189,6 +1196,13 @@ public class PBScore extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         startTimers();
+        try {
+            System.out.println(vb.apiread("player 2", "file"));
+        } catch (IOException ex) {
+            Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1423,8 +1437,24 @@ public class PBScore extends javax.swing.JFrame {
 
     private void jCheckStreamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckStreamActionPerformed
         if (jCheckStream.isSelected()) {
-            jTextField5.setText("VidBlaster Open");
+            try {
+                this.vb = new Vidblaster("79.111.15.80", 60998);
+                VidblasterThreadReader ttt = vb.getIn();
+                ttt.addVidblasterReadEventListener(new VidblasterReadEventListener() {
+                    @Override
+                    public void VidblsterReadEvent(VidblasterReadEvents e) {
+                        jTextField5.setText(e.getMessage());
+                    }
+                });
+            } catch (Exception ex) {
+                Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
+            try {
+                vb.close();
+            } catch (IOException ex) {
+                Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, ex);
+            }
             jTextField5.setText("VidBlaster Close");
         }
     }//GEN-LAST:event_jCheckStreamActionPerformed
@@ -1436,8 +1466,8 @@ public class PBScore extends javax.swing.JFrame {
         int ret = filesave.showSaveDialog(null);
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = filesave.getSelectedFile();
-            if(!file.exists()){
-                
+            if (!file.exists()) {
+
             }
         }
 
@@ -1455,6 +1485,10 @@ public class PBScore extends javax.swing.JFrame {
     private void jMenuSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSaveAsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuSaveAsActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        cForm.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private Boolean data2bool(Object o) {
         Boolean out = true;
