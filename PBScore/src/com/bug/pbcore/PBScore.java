@@ -7,6 +7,7 @@ package com.bug.pbcore;
 
 import com.apple.eawt.Application;
 import com.bug.vidblaster.api.*;
+import com.bug.vidblaster.modules.Player;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -1446,6 +1447,9 @@ public class PBScore extends javax.swing.JFrame {
                         jTextField5.setText(e.getMessage());
                     }
                 });
+                Player pl= new Player();
+                pl.stop(vb, 1);
+                System.out.println(pl.getFile(vb, 1));
             } catch (Exception ex) {
                 Logger.getLogger(PBScore.class.getName()).log(Level.SEVERE, null, ex);
             }
